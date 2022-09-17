@@ -3,9 +3,15 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 
-const appElement = createRoot(document.getElementById('app'));
+/**
+ * ********************
+ * @module Index
+ * ********************
+ **/
 
-appElement.render(
+const root = createRoot(document.getElementById('root'));
+
+root.render(
   <BrowserRouter>
     <App />
   </BrowserRouter>
