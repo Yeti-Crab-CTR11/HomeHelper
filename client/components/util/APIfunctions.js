@@ -31,6 +31,27 @@ APIFunctions.verifyLogin = (username, password) => {
 
 // CREATE ACCOUNT
 
+APIFunctions.createUser = (username, password, email, phoneNumber) => {
+  const url ='/api/users/new_user';
+  // from server post on Excalidraw
+  const data = {
+    user_name: username,
+    password: password,
+    email: email,
+    phone_number: phoneNumber
+    }
+
+    fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    })
+    .then((response) => response.json())
+    .then((returnedData) => returnedData)
+    .catch((err) => console.log("Error creating new user data", err))
+
+}
+
 // GET ITEMS IN USER LIST
 APIFunctions.getItems = (user) => {
   const url = `/api/${user}`;

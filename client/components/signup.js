@@ -36,30 +36,26 @@ const SignUp = () => {
 
 
       if (uname === undefined || typeof uname !== 'string') setErrorMessages({ name: "uname", message: errors.uname });
-      if (pass === undefined || typeof pass !== 'string') setErrorMessages({ name: "pass", message: errors.pass });
-      if (email === undefined || typeof email !== 'string') setErrorMessages({ name: "email", message: errors.email });
-      if (phone === undefined || typeof phone !== 'number') setErrorMessages({ name: "phone", message: errors.phone });
-
-        // ^^^ I should check to see if all of the fields 
-        // are submitted correctly before creating the userData variable
-
-      const userData = APIFunctions.createUser(uname, pass, email, phone);
-
-        // I need to create the createUser function
-  
-      if (userData) {
-     
-      } 
-      else {
+      else if (pass === undefined || typeof pass !== 'string') setErrorMessages({ name: "pass", message: errors.pass });
+      else if (email === undefined || typeof email !== 'string') setErrorMessages({ name: "email", message: errors.email });
+      else if (phone === undefined || typeof phone !== 'number') setErrorMessages({ name: "phone", message: errors.phone });
       
-      }
+      else {
+        const userData = APIFunctions.createUser(uname, pass, email, phone);
+
+        if (userData) {
+            setIsSubmitted(true);
+            setUser(uname);
+            return <Navigate replace to='/dashboard' />;
+        }
+        else console.error("Did not return correct user data from API during CreateUser function in signup")
+      }  
     };
 
 
 
     const handleClick = (event) => {
-        return <Navigate replace to='/signup' />
-        //is this enough to exit the login page and enter the signup page?
+        return <Navigate replace to='/login' />
     }
 
 
@@ -85,28 +81,38 @@ const SignUp = () => {
             <input type="password" name="pass" required />
             {renderErrorMessage("pass")}
           </div>
+          <div className="input-container">
+            <label>Email </label>
+            <input type="text" name="email" required />
+            {renderErrorMessage("email")}
+          </div>
+          <div className="input-container">
+            <label>Phone Number </label>
+            <input type="text" name="phone" required />
+            {renderErrorMessage("phone")}
+          </div>
           <div className="button-container">
             <input type="submit" />
           </div>
           <div className="button-container">
-          <input type="signup" onClick={handleClick}/>
+          <div className="login-redirect">Already have an account? Log in here.</div>
+          <input type="login" onClick={handleClick}/>
           </div>
         </form>
       </div>
 
     );
+
+    // onClick={() => handleClick()
   
     return (
       <div className="app">
-        <div className="login-form">
-          <div className="title">Sign In</div>
+        <div className="signin-form">
+          <div className="title">Sign Up</div>
           {renderForm}
         </div>
       </div>
     );
-
-
-
 
 }
 
