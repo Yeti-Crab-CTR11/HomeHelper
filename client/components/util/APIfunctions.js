@@ -1,4 +1,6 @@
+
 import React from 'react';
+
 import { Navigate } from 'react-router-dom';
 
 /**
@@ -7,6 +9,7 @@ import { Navigate } from 'react-router-dom';
  * ********************
  **/
 
+//API FUNCTIONS OBJECT
 const APIFunctions = {};
 
 // VERIFY LOGIN
@@ -68,16 +71,30 @@ APIFunctions.getItems = (user) => {
 };
 
 //ADD NEW ITEM TO USER LIST
-APIFunctions.addItems = (e) => {
-  const url = '/api/';
-  const data = { user: e.target.value.user, item: e.target.value.item };
+APIFunctions.addItem = (user, e) => {
+  const url = '/api/item';
+  const data = { user: user, item: e.target.value };
   fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
   })
     .then((response) => response.json())
-    .then((data) => <Navigate replace to='/items' />)
+    .then((data) => <Navigate replace to='/dashboard' />)
+    .catch((err) => console.log(err));
+};
+
+//ADD NEW ITEM DETAILS
+APIFunctions.addItemDetails = (user, newItemDetails) => {
+  const url = '/api/itemdetails';
+  const data = { user_name: user, item: newItemDetails };
+  fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  })
+    .then((response) => response.json())
+    .then((data) => <Navigate replace to='/dashboard' />)
     .catch((err) => console.log(err));
 };
 

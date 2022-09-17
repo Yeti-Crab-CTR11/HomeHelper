@@ -1,9 +1,8 @@
 import React, { useState, useContext, useEffect, Component } from 'react';
 import { Navigate } from 'react-router-dom';
-import UserContext from '../App';
+import { UserContext } from '../App';
 import Card from './card';
 import APIFunctions from './util/APIfunctions';
-import HelperFunctions from './util/APIfunctions';
 
 /**
  * ********************
@@ -13,7 +12,7 @@ import HelperFunctions from './util/APIfunctions';
 
 const defaultList = ['FirePlace', 'Gutters', 'HVAC', 'Pool'];
 
-const Items = () => {
+const AddItems = () => {
   //create the state
   const [user, setUser] = useContext(UserContext);
   const [items, setItems] = useState(null);
@@ -33,9 +32,9 @@ const Items = () => {
   });
 
   // **************************HELPER FUNCTIONS*************************
-  const handleChooseItemBtnClick = () => {
-    const newItem = APIFunctions.addItems(e.target.value);
-    setItems = new Object.assign(items, newItem);
+  const handleChooseItemBtnClick = (e) => {
+    handleSetItemName(e.target.value);
+    return <Navigate replace to='/itemdetails' />;
   };
   // ************************END OF HELPER FUNCTIONS********************
 
@@ -46,12 +45,7 @@ const Items = () => {
 
   //build items list
   const itemsList = missingItems.map((item, idx) => (
-    <button
-      key={idx}
-      user={user}
-      value={{ user: user, item: item }}
-      onClick={(e) => handleChooseItemBtnClick(e)}
-    >
+    <button key={idx} value={item} onClick={(e) => handleChooseItemBtnClick(e)}>
       {item}
     </button>
   ));
@@ -67,4 +61,4 @@ const Items = () => {
   );
 };
 
-export default Items;
+export default AddItems;
