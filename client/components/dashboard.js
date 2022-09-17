@@ -15,13 +15,9 @@ const Dashboard = () => {
   const [user, setUser] = useContext(UserContext);
   const [items, setItems] = useState(null);
 
-  //TEST//TEST//TEST//TEST//TEST//TEST//TEST//TEST
-  //setUser('kris');
-  //TEST//TEST//TEST//TEST//TEST//TEST//TEST//TEST
-
   //redirect to login page if user is not logged in
   if (!user) return <Navigate replace to='/login' />;
-  if (!items) return <Navigate replace to='/items' />;
+  if (!items) return <Navigate replace to='/additems' />;
 
   //listen to changes in state
   useEffect(() => {
@@ -36,7 +32,7 @@ const Dashboard = () => {
   };
 
   const handleAddItemsBtnClick = (user) => {
-    return <Navigate replace to='/items' />;
+    return <Navigate replace to='/additems' />;
   };
   // ************************END OF HELPER FUNCTIONS********************
 

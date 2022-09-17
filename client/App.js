@@ -11,7 +11,6 @@ import AddItemDetails from './components/additemdetails';
  * @module App
  * ********************
  **/
-
 const UserContext = createContext([{}, () => {}]);
 const ItemContext = createContext([{}, () => {}]);
 
@@ -29,24 +28,26 @@ const App = () => {
   return (
     <div id='root'>
       <UserContext.Provider value={[user, setUser]}>
-        <Routes>
-          <Route path='/' element={<Dashboard />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/signup' element={<Signup />} />
-          <Route
-            path='/additems'
-            element={<AddItems />}
-            handleSetItemName={handleSetItemName}
-          />
-          <Route
-            path='/additemdetails'
-            element={<AddItemDetails />}
-            itemName='{itemName}'
-          />
-        </Routes>
+        <ItemContext.Provider value={[itemName, setItemName]}>
+          <Routes>
+            <Route index element={<Dashboard />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/signup' element={<Signup />} />
+            <Route
+              path='/additems'
+              element={<AddItems />}
+              handleSetItemName={handleSetItemName}
+            />
+            <Route
+              path='/additemdetails'
+              element={<AddItemDetails />}
+              itemName='{itemName}'
+            />
+          </Routes>
+        </ItemContext.Provider>
       </UserContext.Provider>
     </div>
   );
 };
 
-export default { App, UserContext, ItemContext };
+export { App, UserContext, ItemContext };
