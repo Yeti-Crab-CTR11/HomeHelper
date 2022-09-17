@@ -3,8 +3,8 @@ import { Routes, Route } from 'react-router-dom';
 import Dashboard from './components/dashboard';
 import Login from './components/login';
 import Signup from './components/signup';
-import Items from './components/items';
-import ItemDetails from './components/itemdetails';
+import AddItems from './components/additems';
+import AddItemDetails from './components/additemdetails';
 
 /**
  * ********************
@@ -19,17 +19,17 @@ const App = () => {
   const [user, setUser] = useState(null);
 
   return (
-    <RootDiv>
+    <div id='root'>
       <UserContext.Provider value={[user, setUser]}>
         <Routes>
           <Route path='/' element={<Dashboard />} />
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<Signup />} />
-          <Route path='/items' element={<Items />} />
-          <Route path='/itemdetails' element={<ItemDetails />} />
+          <Route path='/items' element={<AddItems />} />
+          <Route path='/itemdetails' element={<AddItemDetails />} />
         </Routes>
       </UserContext.Provider>
-    </RootDiv>
+    </div>
   );
 };
 

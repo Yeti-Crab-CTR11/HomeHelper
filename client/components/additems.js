@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect, Component } from 'react';
 import { Navigate } from 'react-router-dom';
-import UserContext from '../App';
+import { UserContext } from '../App';
 import Card from './card';
 import APIFunctions from './util/APIfunctions';
 import HelperFunctions from './util/APIfunctions';
@@ -34,7 +34,7 @@ const Items = () => {
 
   // **************************HELPER FUNCTIONS*************************
   const handleChooseItemBtnClick = () => {
-    const newItem = APIFunctions.addItems(e.target.value);
+    const newItem = APIFunctions.addItems(user, e.target.value);
     setItems = new Object.assign(items, newItem);
   };
   // ************************END OF HELPER FUNCTIONS********************
@@ -46,12 +46,7 @@ const Items = () => {
 
   //build items list
   const itemsList = missingItems.map((item, idx) => (
-    <button
-      key={idx}
-      user={user}
-      value={{ user: user, item: item }}
-      onClick={(e) => handleChooseItemBtnClick(e)}
-    >
+    <button key={idx} value={item} onClick={(e) => handleChooseItemBtnClick(e)}>
       {item}
     </button>
   ));

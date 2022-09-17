@@ -1,4 +1,6 @@
+import React, { useState, useContext, useEffect, Component } from 'react';
 import { Navigate } from 'react-router-dom';
+import { UserContext } from '../App';
 
 /**
  * ********************
@@ -6,38 +8,39 @@ import { Navigate } from 'react-router-dom';
  * ********************
  **/
 
-const APIFunctions = {};
+//API FUNCTIONS OBJECT
+const APIFunctions = {
+  // VERIFY LOGIN
 
-// VERIFY LOGIN
+  // CREATE ACCOUNT
 
-// CREATE ACCOUNT
+  // GET ITEMS IN USER LIST
+  getItems: (user) => {
+    const url = `/api/${user}`;
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => data) //
+      .catch((err) => console.log(err));
 
-// GET ITEMS IN USER LIST
-APIFunctions.getItems = (user) => {
-  const url = `/api/${user}`;
-  fetch(url)
-    .then((response) => response.json())
-    .then((data) => data) //
-    .catch((err) => console.log(err));
+    // expected return object
+    // [{  name: String,
+    //     lastSvc: String,
+    //     nextSvc: String  }]
+  },
 
-  // expected return object
-  // [{  name: String,
-  //     lastSvc: String,
-  //     nextSvc: String  }]
-};
-
-//ADD NEW ITEM TO USER LIST
-APIFunctions.addItems = (e) => {
-  const url = '/api/';
-  const data = { user: e.target.value.user, item: e.target.value.item };
-  fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
-  })
-    .then((response) => response.json())
-    .then((data) => <Navigate replace to='/items' />)
-    .catch((err) => console.log(err));
+  //ADD NEW ITEM TO USER LIST
+  addItems: (user, e) => {
+    const url = '/api';
+    const data = { user: user, item: e.target.value };
+    fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((data) => <Navigate replace to='/dashboard' />)
+      .catch((err) => console.log(err));
+  },
 };
 
 export default APIFunctions;

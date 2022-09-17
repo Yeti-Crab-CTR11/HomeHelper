@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect, Component } from 'react';
 import { Navigate } from 'react-router-dom';
-import UserContext from '../App';
+import { UserContext } from '../App';
 import APIFunctions from './util/APIfunctions';
 import Card from './card';
 
@@ -16,7 +16,7 @@ const Dashboard = () => {
   const [items, setItems] = useState(null);
 
   //TEST//TEST//TEST//TEST//TEST//TEST//TEST//TEST
-  setUser('kris');
+  //setUser('kris');
   //TEST//TEST//TEST//TEST//TEST//TEST//TEST//TEST
 
   //redirect to login page if user is not logged in
@@ -35,7 +35,7 @@ const Dashboard = () => {
     return <Navigate replace to='/login' />;
   };
 
-  const handleAddItemsBtnClick = () => {
+  const handleAddItemsBtnClick = (user) => {
     return <Navigate replace to='/items' />;
   };
   // ************************END OF HELPER FUNCTIONS********************
