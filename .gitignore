@@ -9,3 +9,6 @@ npm-debug.log*
 
 # output from webpack
 dist/
+
+#environment variables
+.env.twilio
