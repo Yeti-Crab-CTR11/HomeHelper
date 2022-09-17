@@ -3,6 +3,7 @@ const path = require('path');
 const app = express();
 const PORT = 3000;
 const remindersRouter = require('./routes/reminders');
+const usersRouter = require('./routes/users');
 
 //parse request body for POST and PUT requests
 app.use(express.json());
@@ -11,6 +12,7 @@ app.use(express.static(path.join( __dirname, '../build')));
 
 app.get('/', (req, res) => res.status(200).sendFile(path.join( __dirname, '../index.html')));
 app.use('/api/reminders', remindersRouter);
+app.use('/api/users', usersRouter);
 
 app.listen(PORT, () => {
   console.log(`Server listening on port: ${PORT}`);
