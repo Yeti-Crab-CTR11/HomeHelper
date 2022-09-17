@@ -1,6 +1,6 @@
 const db = require('../models/database');
 
-const userController = {
+const maintenanceItemController = {
   createNewUser: (req, res, next) => {
     const { user_name, password, email, phone } = req.body;
     const text =
@@ -70,4 +70,4 @@ const userController = {
   },
 };
 
-module.exports = userController;
+module.exports = maintenanceItemController;
