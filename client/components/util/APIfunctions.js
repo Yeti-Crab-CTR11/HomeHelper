@@ -1,5 +1,11 @@
 import { Navigate } from 'react-router-dom';
 
+/**
+ * ********************
+ * @module APIFunctions
+ * ********************
+ **/
+
 const APIFunctions = {};
 
 // VERIFY LOGIN
@@ -23,7 +29,7 @@ APIFunctions.getItems = (user) => {
 //ADD NEW ITEM TO USER LIST
 APIFunctions.addItems = (e) => {
   const url = '/api/';
-  const data = { user: user, item: e.target.value };
+  const data = { user: e.target.value.user, item: e.target.value.item };
   fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

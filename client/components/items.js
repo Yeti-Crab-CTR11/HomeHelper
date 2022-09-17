@@ -48,8 +48,9 @@ const Items = () => {
   const itemsList = missingItems.map((item, idx) => (
     <button
       key={idx}
-      value={item}
-      onClick={() => handleChooseItemBtnClick(user)}
+      user={user}
+      value={{ user: user, item: item }}
+      onClick={(e) => handleChooseItemBtnClick(e)}
     >
       {item}
     </button>
