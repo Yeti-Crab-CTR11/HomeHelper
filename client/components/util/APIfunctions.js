@@ -10,6 +10,25 @@ const APIFunctions = {};
 
 // VERIFY LOGIN
 
+APIFunctions.verifyLogin = (username, password) => {
+  const url = '/api/users/login';
+
+  const data = {
+    user_name: username,
+    password: password
+  }
+  
+  fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  })
+  .then((response) => response.json())
+  .then((returnedData) => returnedData)
+  .catch((err) => console.log("Error verifying Login", err))
+
+}
+
 // CREATE ACCOUNT
 
 // GET ITEMS IN USER LIST
