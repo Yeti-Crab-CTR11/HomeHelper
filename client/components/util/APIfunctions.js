@@ -1,3 +1,4 @@
+import React from 'react';
 import { Navigate } from 'react-router-dom';
 
 /**
@@ -39,7 +40,7 @@ APIFunctions.createUser = (username, password, email, phoneNumber) => {
     password: password,
     email: email,
     phone: phoneNumber
-    }
+  };
 
     fetch(url, {
       method: 'POST',
