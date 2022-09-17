@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect, Component } from 'react';
 import { Navigate } from 'react-router-dom';
-import UserContext from '../App';
+import {UserContext} from '../App';
 import APIFunctions from './util/APIfunctions';
 
 
@@ -35,7 +35,7 @@ const Login = () => {
 
     //   const userData = database.find((user) => user.username === uname.value);
 
-    const userData = APIFunctions.verifyLogin(uname, pass);
+    const userData = APIFunctions.verifyLogin(uname.value, pass.value);
 
       // What syntax do we need to find this data?
       // I should make a post request to my server(api)
