@@ -1,35 +1,30 @@
-// const db = require('../models/userModel');
-const path = require('path');
+const db = require('../models/database');
 
 const userController = {
   createNewUser: (req, res, next) => {
-    const { user_name, password, email, phone_number } = req.body;
+    const { user_name, password, email, phone } = req.body;
     const text =
-      'INSERT INTO user_account (user_name, password, email, phone_number) VALUES ($1, $2, $3, $4) RETURNING id';
-    const values = [user_name, password, email, phone_number];
+      'INSERT INTO user_account (user_name, password, email, phone) VALUES ($1, $2, $3, $4) RETURNING _id';
+    const values = [user_name, password, email, phone];
     console.log(req.body);
-//UNCOMMENT FOR DATABASE!
-    // db.query(text, values)
-    //   .then((response) => {
-    //     console.log('newUser', response);
-    //     res.locals.newUserId = response.rows[0].id;
-    //     next();
-    //   })
-    //   .catch((err) => {
-    //     next({
-    //       status: 404,
-    //       message: {
-    //         err: 'Error with request to make new user, please review input fields',
-    //       },
-    //     });
-    //   });
-
+    db.query(text, values)
+      .then((response) => {
+        res.locals.userId = response.rows[0]._id;
+        next();
+      })
+      .catch((err) => {
+        next({
+          status: 404,
+          message: {
+            err: 'Error with request to make new user, please review input fields',
+          },
+        });
+      });
   },
-
 
   verifyUser: (req, res, next) => {
     const { user_name, password } = req.body;
-    const text = 'SELECT password, id FROM user_account WHERE user_name = $1';
+    const text = 'SELECT password, _id FROM user_account WHERE user_name = $1';
     const values = [user_name];
     db.query(text, values)
       .then((response) => {
@@ -41,11 +36,8 @@ const userController = {
           }
         });
         if (!res.locals.userId) {
-          //Still need to do something if user/password are incorrect
-          // res.locals.failedToLogin = true;
           console.log('Username or password are incorrect!');
           res.locals.id(null); //if password/username doesn't work, set ID to null
-          // res.redirect(path.resolve(__dirname,'../../client/404.html'))
         }
         next();
       })

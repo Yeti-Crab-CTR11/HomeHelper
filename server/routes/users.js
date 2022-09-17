@@ -7,6 +7,6 @@ router.post('/new_user', usersController.createNewUser,  (req, res) => {
 });
 
 router.post('/login', usersController.verifyUser,  (req, res) => {
-  res.status(200);
+  res.status(200).json(res.locals.userId);
 });
 module.exports = router;
