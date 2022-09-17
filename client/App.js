@@ -13,10 +13,18 @@ import AddItemDetails from './components/additemdetails';
  **/
 
 const UserContext = createContext([{}, () => {}]);
+const ItemContext = createContext([{}, () => {}]);
 
 const App = () => {
   //set user state
   const [user, setUser] = useState(null);
+  const [itemName, setItemName] = useState(null);
+
+  // **************************HELPER FUNCTIONS*************************
+  const handleSetItemName = (newItem) => {
+    setItemName(newItem);
+  };
+  // ************************END OF HELPER FUNCTIONS********************
 
   return (
     <div id='root'>
@@ -25,12 +33,20 @@ const App = () => {
           <Route path='/' element={<Dashboard />} />
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<Signup />} />
-          <Route path='/items' element={<AddItems />} />
-          <Route path='/itemdetails' element={<AddItemDetails />} />
+          <Route
+            path='/additems'
+            element={<AddItems />}
+            handleSetItemName={handleSetItemName}
+          />
+          <Route
+            path='/additemdetails'
+            element={<AddItemDetails />}
+            itemName='{itemName}'
+          />
         </Routes>
       </UserContext.Provider>
     </div>
   );
 };
 
-export default { App, UserContext };
+export default { App, UserContext, ItemContext };

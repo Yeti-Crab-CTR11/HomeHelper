@@ -3,7 +3,6 @@ import { Navigate } from 'react-router-dom';
 import { UserContext } from '../App';
 import Card from './card';
 import APIFunctions from './util/APIfunctions';
-import HelperFunctions from './util/APIfunctions';
 
 /**
  * ********************
@@ -13,7 +12,7 @@ import HelperFunctions from './util/APIfunctions';
 
 const defaultList = ['FirePlace', 'Gutters', 'HVAC', 'Pool'];
 
-const Items = () => {
+const AddItems = () => {
   //create the state
   const [user, setUser] = useContext(UserContext);
   const [items, setItems] = useState(null);
@@ -33,9 +32,9 @@ const Items = () => {
   });
 
   // **************************HELPER FUNCTIONS*************************
-  const handleChooseItemBtnClick = () => {
-    const newItem = APIFunctions.addItems(user, e.target.value);
-    setItems = new Object.assign(items, newItem);
+  const handleChooseItemBtnClick = (e) => {
+    handleSetItemName(e.target.value);
+    return <Navigate replace to='/itemdetails' />;
   };
   // ************************END OF HELPER FUNCTIONS********************
 
@@ -62,4 +61,4 @@ const Items = () => {
   );
 };
 
-export default Items;
+export default AddItems;
