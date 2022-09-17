@@ -38,7 +38,7 @@ APIFunctions.createUser = (username, password, email, phoneNumber) => {
     user_name: username,
     password: password,
     email: email,
-    phone_number: phoneNumber
+    phone: phoneNumber
     }
 
     fetch(url, {
