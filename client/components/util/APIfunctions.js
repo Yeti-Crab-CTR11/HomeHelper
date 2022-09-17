@@ -28,7 +28,7 @@ APIFunctions.verifyLogin = (username, password) => {
     body: JSON.stringify(data),
   })
   .then((response) => response.json())
-  .then((returnedData) => returnedData)
+  .then((returnedData) => console.log(returnedData))
   .catch((err) => console.log("Error verifying Login", err))
 
 }

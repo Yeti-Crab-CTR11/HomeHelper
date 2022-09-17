@@ -28,7 +28,6 @@ const Login = () => {
 
       //Prevent page reload
       event.preventDefault();
-  
       let { uname, pass } = document.forms[0];
   
       // Find user login info
@@ -81,7 +80,7 @@ const Login = () => {
         <form onSubmit={handleSubmit}>
           <div className="input-container">
             <label>Username </label>
-            <input type="text" name="uname" required />
+            <input type="text" name="uname"  required />
             {renderErrorMessage("uname")}
           </div>
           <div className="input-container">
