@@ -1,0 +1,70 @@
+import React, { useState, useContext, useEffect, Component } from 'react';
+import { Navigate } from 'react-router-dom';
+import UserContext from '../App';
+import Card from './card';
+import APIFunctions from './util/APIfunctions';
+import HelperFunctions from './util/APIfunctions';
+
+/**
+ * ********************
+ * @module Items
+ * ********************
+ **/
+
+const defaultList = ['FirePlace', 'Gutters', 'HVAC', 'Pool'];
+
+const Items = () => {
+  //create the state
+  const [user, setUser] = useContext(UserContext);
+  const [items, setItems] = useState(null);
+
+  //TEST//TEST//TEST//TEST//TEST//TEST//TEST//TEST
+  //
+  //TEST//TEST//TEST//TEST//TEST//TEST//TEST//TEST
+
+  //redirect to login page if user is not logged in
+  if (!user) return <Navigate replace to='/login' />;
+
+  //check items for missing maintenance items to add
+  //listen to changes in state
+  useEffect(() => {
+    const currentItems = APIFunctions.getItems(user);
+    setItems(currentItems);
+  });
+
+  // **************************HELPER FUNCTIONS*************************
+  const handleChooseItemBtnClick = () => {
+    const newItem = APIFunctions.addItems(e.target.value);
+    setItems = new Object.assign(items, newItem);
+  };
+  // ************************END OF HELPER FUNCTIONS********************
+
+  //get missing items
+  const missingItems = defaultList.filter(
+    (item) => !defaultList.includes(item.name)
+  );
+
+  //build items list
+  const itemsList = missingItems.map((item, idx) => (
+    <button
+      key={idx}
+      user={user}
+      value={{ user: user, item: item }}
+      onClick={(e) => handleChooseItemBtnClick(e)}
+    >
+      {item}
+    </button>
+  ));
+
+  //render
+  render(
+    <div>
+      <header>
+        <h1>Select item</h1>
+      </header>
+      <section>{itemsList}</section>
+    </div>
+  );
+};
+
+export default Items;

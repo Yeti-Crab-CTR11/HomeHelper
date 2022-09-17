@@ -1,27 +1,68 @@
-import React, { useState, useContext, Component } from 'react';
+import React, { useState, useContext, useEffect, Component } from 'react';
 import { Navigate } from 'react-router-dom';
-import { UserContext } from '../App';
+import UserContext from '../App';
+import APIFunctions from './util/APIfunctions';
+import Card from './card';
+
+/**
+ * ********************
+ * @module Dashboard
+ * ********************
+ **/
 
 const Dashboard = () => {
   //create the state
   const [user, setUser] = useContext(UserContext);
+  const [items, setItems] = useState(null);
 
-  //redirect to login page if no user logged in
+  //TEST//TEST//TEST//TEST//TEST//TEST//TEST//TEST
+  setUser('kris');
+  //TEST//TEST//TEST//TEST//TEST//TEST//TEST//TEST
+
+  //redirect to login page if user is not logged in
   if (!user) return <Navigate replace to='/login' />;
+  if (!items) return <Navigate replace to='/items' />;
 
-  //fetch call to collect cards belonging to user
+  //listen to changes in state
+  useEffect(() => {
+    const currentItems = APIFunctions.getItems(user);
+    setItems(currentItems);
+  });
+
+  // **************************HELPER FUNCTIONS*************************
+  const handleLogoutBtnClick = () => {
+    setUser(null);
+    return <Navigate replace to='/login' />;
+  };
+
+  const handleAddItemsBtnClick = () => {
+    return <Navigate replace to='/items' />;
+  };
+  // ************************END OF HELPER FUNCTIONS********************
 
   //iterate thru cards and create cards to be displayed
+  const cards = items.map((item, idx) => {
+    <Card
+      key={idx}
+      item={item.name}
+      lastSvc={item.lastSvc}
+      nextSvc={item.nextSvc}
+    />;
+  });
 
+  //render page
   return (
     <div>
       <header>
-        <img id='logo' src='' />
-        <link>PancakeIcon</link>
+        <h1>homeBuddy</h1>
+        <button id='logout' onClick={() => handleLogOutBtnClick()}></button>
       </header>
-      <section id='main-display'>{cards}</section>
+      <section id='mainDisplay'>{cards}</section>
       <footer>
-        <img id='add-icon' />
+        <button
+          id='addItems'
+          onClick={() => handleAddItemsBtnClick(user)}
+        ></button>
       </footer>
     </div>
   );

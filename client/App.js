@@ -6,6 +6,12 @@ import Signup from './components/signup';
 import Items from './components/items';
 import ItemDetails from './components/itemdetails';
 
+/**
+ * ********************
+ * @module App
+ * ********************
+ **/
+
 const UserContext = createContext([{}, () => {}]);
 
 const App = () => {
