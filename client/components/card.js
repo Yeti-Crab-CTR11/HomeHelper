@@ -10,7 +10,7 @@ import { UserContext } from '../App';
 
 const Card = () => {
   const [userId, setUserId] = useContext(UserContext);
-  const [detailToggle, setDetailToggle] = useState(false);
+  const [moreDetails, setMoreDetails] = useState(false);
 
   //redirect to login page if user is not logged in
   if (!userId) return <Navigate replace to='/login' />;
@@ -27,7 +27,7 @@ const Card = () => {
   // ************************END OF HELPER FUNCTIONS********************
 
   //render this if detailToggleOff is true
-  const detailToggleOn = (
+  const moreDetailsOn = (
     <div>
       <button onClick={() => handleLogOutBtnClick()}>X</button>
       <article>
@@ -38,17 +38,17 @@ const Card = () => {
           les nabis ottonian gründerzeit, fluxus cobra sound art expressionism
           social realism russian futurism art nouveau.
         </p>
-        <button onClick={() => setDetailToggle(false)}>Less Details</button>
+        <button onClick={() => setMoreDetails(false)}>Less Details</button>
       </article>
     </div>
   );
 
   //render this if detailToggleOff is false
-  const detailToggleOff = (
+  const moreDetailsOff = (
     <article>
       <p>Last Service Date: {props.lastSvc}</p>
       <p>Next Service Date: {props.nextSvc}</p>
-      <button onClick={() => setDetailToggle(true)}>More Details</button>
+      <button onClick={() => setMoreDetails(true)}>More Details</button>
     </article>
   );
   const imgUrl =
@@ -57,12 +57,12 @@ const Card = () => {
   //render
   return (
     <section>
-      {detailView ? <img src={imgUrl} /> : ''}
+      {moreDetails ? <img src={imgUrl} /> : ''}
       <header>
         <h2>{props.item}</h2>
         <button onClick={() => handleCloseBtnClick()}>Close</button>
       </header>
-      <div>{detailView ? detailViewOn : detailViewOff}</div>
+      <div>{moreDetails ? moreDetailsOn : moreDetailsOff}</div>
     </section>
   );
 };
