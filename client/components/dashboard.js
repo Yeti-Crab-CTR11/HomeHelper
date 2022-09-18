@@ -51,7 +51,7 @@ const Dashboard = () => {
     <div>
       <header>
         <h1>homeBuddy</h1>
-        <button id='logout' onClick={() => handleLogOutBtnClick()}></button>
+        <button onClick={() => handleLogOutBtnClick()}>X</button>
       </header>
       <section id='mainDisplay'>{cards}</section>
       <footer>
