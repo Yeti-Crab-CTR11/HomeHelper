@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 import { Navigate } from 'react-router-dom';
@@ -19,83 +18,62 @@ APIFunctions.verifyLogin = (username, password) => {
 
   const data = {
     user_name: username,
-    password: password
-  }
-  
+    password: password,
+  };
+
   fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
   })
-  .then((response) => response.json())
-  .then((returnedData) => console.log(returnedData))
-  .catch((err) => console.log("Error verifying Login", err))
-
-}
+    .then((response) => response.json())
+    .then((returnedData) => returnedData)
+    .catch((err) => console.log('Error verifying Login', err));
+};
 
 // CREATE ACCOUNT
 
 APIFunctions.createUser = (username, password, email, phoneNumber) => {
-  const url ='/api/users/new_user';
+  const url = '/api/users/new_user';
   // from server post on Excalidraw
   const data = {
     user_name: username,
     password: password,
     email: email,
-    phone: phoneNumber
+    phone: phoneNumber,
   };
 
-    fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    })
-    .then((response) => response.json())
-    .then((returnedData) => returnedData)
-    .catch((err) => console.log("Error creating new user data", err))
-
-}
-
-// GET ITEMS IN USER LIST
-APIFunctions.getItems = (user) => {
-  const url = `/api/${user}`;
-  fetch(url)
-    .then((response) => response.json())
-    .then((data) => data) //
-    .catch((err) => console.log(err));
-
-  // expected return object
-  // [{  name: String,
-  //     lastSvc: String,
-  //     nextSvc: String  }]
-};
-
-//ADD NEW ITEM TO USER LIST
-APIFunctions.addItem = (user, e) => {
-  const url = '/api/item';
-  const data = { user: user, item: e.target.value };
   fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
   })
     .then((response) => response.json())
-    .then((data) => <Navigate replace to='/dashboard' />)
-    .catch((err) => console.log(err));
+    .then((returnedData) => returnedData)
+    .catch((err) => console.log('Error creating new user data', err));
+};
+
+// GET ITEMS IN USER LIST
+// expected return [{  name: String, lastSvc: String, nextSvc: String  }]
+APIFunctions.getItems = (userId) => {
+  const url = `/api/${userId}`;
+  fetch(url)
+    .then((response) => response.json())
+    .then((data) => data)
+    .catch((err) => console.log('APIFunctions.getItems error', err));
 };
 
 //ADD NEW ITEM DETAILS
-APIFunctions.addItemDetails = (user, newItemDetails) => {
+APIFunctions.addItemDetails = (payload) => {
   const url = '/api/itemdetails';
-  const data = { user_name: user, item: newItemDetails };
   fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
+    body: JSON.stringify(payload),
   })
     .then((response) => response.json())
-    .then((data) => <Navigate replace to='/dashboard' />)
-    .catch((err) => console.log(err));
+    .then((data) => data)
+    .catch((err) => console.log('APIFunctions.addItemDetails error', err));
 };
 
 export default APIFunctions;

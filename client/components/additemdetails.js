@@ -11,8 +11,8 @@ import APIFunctions from './util/APIfunctions';
 
 const AddItemDetails = () => {
   //create the state
-  const [user, setUser] = useContext(UserContext);
-  const [itemName, setItemName] = useContext(ItemContext);
+  const [userId, setUserId] = useContext(UserContext);
+  const [selectedItem, setSelectedItem] = useContext(ItemContext);
   const [lastSvc, setLastSvc] = useState(null);
   const [freq, setFreq] = useState(3);
 
@@ -20,12 +20,13 @@ const AddItemDetails = () => {
 
   // submit button
   const handleSubmitBtnClick = () => {
-    newItemDetails = {
-      itemName: itemName,
-      lastSvc: lastSvc,
+    const payload = {
+      user_id: userId,
+      item_name: selectedItem,
+      last_service_date: lastSvc,
       frequency: freq,
     };
-    APIFunctions.addItemDetails(user, newitemDetails);
+    APIFunctions.addItemDetails(payload);
     return <Navigate replace to='/dashboard' />;
   };
 
@@ -33,7 +34,6 @@ const AddItemDetails = () => {
   const handleCancelBtnClick = () => {
     return <Navigate replace to='/dashboard' />;
   };
-
   // ************************END OF HELPER FUNCTIONS********************
 
   //render

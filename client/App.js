@@ -16,19 +16,19 @@ const ItemContext = createContext([{}, () => {}]);
 
 const App = () => {
   //set user state
-  const [user, setUser] = useState(null);
-  const [itemName, setItemName] = useState(null);
+  const [userId, setUserId] = useState(null);
+  const [selectedItem, setSelectedItem] = useState(null);
 
   // **************************HELPER FUNCTIONS*************************
-  const handleSetItemName = (newItem) => {
-    setItemName(newItem);
+  const handleSetSelectedItem = (newItem) => {
+    setSelectedItem(newItem);
   };
   // ************************END OF HELPER FUNCTIONS********************
 
   return (
     <div id='root'>
-      <UserContext.Provider value={[user, setUser]}>
-        <ItemContext.Provider value={[itemName, setItemName]}>
+      <UserContext.Provider value={[userId, setUserId]}>
+        <ItemContext.Provider value={[selectedItem, setSelectedItem]}>
           <Routes>
             <Route index element={<Dashboard />} />
             <Route path='/login' element={<Login />} />
@@ -36,7 +36,7 @@ const App = () => {
             <Route
               path='/additems'
               element={<AddItems />}
-              handleSetItemName={handleSetItemName}
+              handleSetSelectedItem={handleSetSelectedItem}
             />
             <Route
               path='/additemdetails'

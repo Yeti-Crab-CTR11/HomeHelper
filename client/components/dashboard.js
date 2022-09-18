@@ -12,26 +12,26 @@ import Card from './card';
 
 const Dashboard = () => {
   //create the state
-  const [user, setUser] = useContext(UserContext);
+  const [userId, setUserId] = useContext(UserContext);
   const [items, setItems] = useState(null);
 
   //redirect to login page if user is not logged in
-  if (!user) return <Navigate replace to='/login' />;
+  if (!userId) return <Navigate replace to='/login' />;
   if (!items) return <Navigate replace to='/additems' />;
 
   //listen to changes in state
   useEffect(() => {
-    const currentItems = APIFunctions.getItems(user);
+    const currentItems = APIFunctions.getItems(userId);
     setItems(currentItems);
   });
 
   // **************************HELPER FUNCTIONS*************************
   const handleLogoutBtnClick = () => {
-    setUser(null);
+    setUserId(null);
     return <Navigate replace to='/login' />;
   };
 
-  const handleAddItemsBtnClick = (user) => {
+  const handleAddItemsBtnClick = (userId) => {
     return <Navigate replace to='/additems' />;
   };
   // ************************END OF HELPER FUNCTIONS********************
@@ -57,7 +57,7 @@ const Dashboard = () => {
       <footer>
         <button
           id='addItems'
-          onClick={() => handleAddItemsBtnClick(user)}
+          onClick={() => handleAddItemsBtnClick(userId)}
         ></button>
       </footer>
     </div>

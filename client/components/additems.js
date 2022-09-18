@@ -14,7 +14,7 @@ const defaultList = ['FirePlace', 'Gutters', 'HVAC', 'Pool'];
 
 const AddItems = () => {
   //create the state
-  const [user, setUser] = useContext(UserContext);
+  const [userId, setUserId] = useContext(UserContext);
   const [items, setItems] = useState(null);
 
   //TEST//TEST//TEST//TEST//TEST//TEST//TEST//TEST
@@ -22,30 +22,30 @@ const AddItems = () => {
   //TEST//TEST//TEST//TEST//TEST//TEST//TEST//TEST
 
   //redirect to login page if user is not logged in
-  if (!user) return <Navigate replace to='/login' />;
+  if (!userId) return <Navigate replace to='/login' />;
 
   //check items for missing maintenance items to add
   //listen to changes in state
   useEffect(() => {
-    const currentItems = APIFunctions.getItems(user);
+    const currentItems = APIFunctions.getItems(userId);
     setItems(currentItems);
   });
 
   // **************************HELPER FUNCTIONS*************************
-  const handleChooseItemBtnClick = (e) => {
-    handleSetItemName(e.target.value);
+  const handleSelectItemBtnClick = (e) => {
+    handleSetSelectedItem(e.target.value);
     return <Navigate replace to='/itemdetails' />;
   };
   // ************************END OF HELPER FUNCTIONS********************
 
   //get missing items
   const missingItems = defaultList.filter(
-    (item) => !defaultList.includes(item.name)
+    (item) => !items.includes(item.name)
   );
 
   //build items list
   const itemsList = missingItems.map((item, idx) => (
-    <button key={idx} value={item} onClick={(e) => handleChooseItemBtnClick(e)}>
+    <button key={idx} value={item} onClick={(e) => handleSelectItemBtnClick(e)}>
       {item}
     </button>
   ));
