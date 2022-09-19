@@ -10,7 +10,7 @@ router.post('/login', usersController.verifyUser,  (req, res) => {
   res.status(200).json(res.locals.userId);
 });
 
-router.post('/delete', usersController.deleteUser,  (req, res) => {
+router.delete('/delete_user', usersController.deleteUser,  (req, res) => {
   res.status(200).json('User Deleted');
 });
 module.exports = router;

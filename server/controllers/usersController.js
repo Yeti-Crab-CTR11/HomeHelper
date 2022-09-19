@@ -52,9 +52,9 @@ const userController = {
   },
 
   deleteUser: (req, res, next) => {
-    const { _id } = req.body;
+    const { user_id } = req.body;
     const text = 'DELETE FROM user_account where _id = $1';
-    const values = [_id];
+    const values = [user_id];
     db.query(text, values)
       .then((response) => {
         next();
