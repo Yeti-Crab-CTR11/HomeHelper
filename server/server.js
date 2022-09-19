@@ -5,6 +5,10 @@ const PORT = 3000;
 const remindersRouter = require('./routes/reminders');
 const usersRouter = require('./routes/users');
 const maintenanceItemRouter = require('./routes/maintenanceItem');
+const scheduleController = require('./controllers/scheduleController');
+
+//LEAVE THIS COMMENTED OUT EXCEPT FOR DURING THE DEMO!!!
+// setInterval(scheduleController.getRecords, 6000); 
 
 //parse request body for POST and PUT requests
 app.use(express.json());
