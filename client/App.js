@@ -37,7 +37,9 @@ const App = () => {
       <UserContext.Provider value={[userId, setUserId]}>
         <ItemContext.Provider value={[selectedItem, setSelectedItem]}>
           <Routes>
+            
             <Route index element={<Dashboard />} />
+            <Route path='/login' element={<Login />} />
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<Signup />} />
             <Route
