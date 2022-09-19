@@ -1,10 +1,12 @@
 import React, { useState, createContext } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import Dashboard from './components/dashboard';
 import Login from './components/login';
 import Signup from './components/signup';
-import AddItems from './components/additems';
-import AddItemDetails from './components/additemdetails';
+import Settings from './components/settings';
+import SelectItem from './components/selectitem';
+import AddItem from './components/additem';
 
 /**
  * ********************
@@ -16,35 +18,51 @@ const ItemContext = createContext([{}, () => {}]);
 
 const App = () => {
   //set user state
-  const [user, setUser] = useState(null);
-  const [itemName, setItemName] = useState(null);
+  const [userId, setUserId] = useState(null);
+  const [selectedItem, setSelectedItem] = useState(null);
 
   // **************************HELPER FUNCTIONS*************************
-  const handleSetItemName = (newItem) => {
-    setItemName(newItem);
+  //select item
+  const handleSetSelectedItem = (e) => {
+    setSelectedItem(e.target.value);
+  };
+
+  //cancel button shared with multiple modules
+  const handleCancelBtnClick = () => {
+    return <Navigate replace to='/' />;
   };
   // ************************END OF HELPER FUNCTIONS********************
 
   return (
     <div id='root'>
-      <UserContext.Provider value={[user, setUser]}>
-        <ItemContext.Provider value={[itemName, setItemName]}>
+      <UserContext.Provider value={[userId, setUserId]}>
+        <ItemContext.Provider value={[selectedItem, setSelectedItem]}>
           <Routes>
-            
             <Route index element={<Dashboard />} />
             <Route path="/*" element={<Dashboard />}/>
             <Route path='/login' element={<Login />} />
-            <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<Signup />} />
             <Route
-              path='/additems'
-              element={<AddItems />}
-              handleSetItemName={handleSetItemName}
+              path='/settings'
+              element={<Settings handleCancelBtnClick={handleCancelBtnClick} />}
             />
             <Route
-              path='/additemdetails'
-              element={<AddItemDetails />}
-              itemName='{itemName}'
+              path='/selectitem'
+              element={
+                <SelectItem
+                  handleSetSelectedItem={handleSetSelectedItem}
+                  handleCancelBtnClick={handleCancelBtnClick}
+                />
+              }
+            />
+            <Route
+              path='/additem'
+              element={
+                <AddItem
+                  handleCancelBtnClick={handleCancelBtnClick}
+                  selectedItem={selectedItem}
+                />
+              }
             />
           </Routes>
         </ItemContext.Provider>

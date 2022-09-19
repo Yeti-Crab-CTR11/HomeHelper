@@ -1,7 +1,8 @@
 import React, { useState, useContext, useEffect, Component } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { UserContext } from '../App';
 import APIFunctions from './util/APIfunctions';
+import Settings from './settings';
 import Card from './card';
 
 /**
@@ -11,54 +12,75 @@ import Card from './card';
  **/
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   //create the state
   const [userId, setUserId] = useContext(UserContext);
   const [items, setItems] = useState(null);
 
   //redirect to login page if user is not logged in
   if (!userId) return <Navigate replace to='/login' />;
-  if (!items) return <Navigate replace to='/additems' />;
-
-  //listen to changes in state
-  useEffect(() => {
-    const currentItems = APIFunctions.getItems(userId);
-    setItems(currentItems);
-  });
 
   // **************************HELPER FUNCTIONS*************************
-  const handleLogoutBtnClick = () => {
-    setUserId(null);
-    return <Navigate replace to='/login' />;
+  const handleSettingsBtnClick = () => {
+    return navigate('/settings');
   };
 
-  const handleAddItemsBtnClick = (user) => {
-    return <Navigate replace to='/additems' />;
+  const handleSelectItemBtnClick = (userId) => {
+    return navigate('/selectitem');
+  };
+
+  const getCurrentItems = async () => {
+    const request = 'getItems';
+    const payload = userId;
+    // console.log('THIS IS FIRST');
+    const currentItems = await APIFunctions.maintenance(request, payload);
+    // console.log('THIS IS THIRD');
+    console.log(currentItems);
+    setItems(currentItems);
   };
   // ************************END OF HELPER FUNCTIONS********************
-
-  //iterate thru cards and create cards to be displayed
-  const cards = items.map((item, idx) => {
-    <Card
-      key={idx}
-      item={item.name}
-      lastSvc={item.lastSvc}
-      nextSvc={item.nextSvc}
-    />;
-  });
+  useEffect(() => {
+    getCurrentItems();
+  }, []);
+  console.log('items', items);
+  // display on line 67
+  const displayItems = (!items || !items.length) ? (
+    <div>
+      <p>
+        Please click on the "+" icon at the bottom left section to add
+        maintenance items.
+      </p>
+    </div>
+  ) : (
+    items.map((item, idx) => {
+      return (
+      <Card
+        key={idx}
+        maintenance_item_id={item._id}
+        item_name={item.item_name}
+        last_service_date={'DATE VALUE'}
+        next_service_date={'DATE VALUE'}
+        frequency={'NUMBER VALUE'}
+        />
+        )
+    })
+  );
 
   //render page
   return (
     <div>
       <header>
-        <h1>homeBuddy</h1>
-        <button id='logout' onClick={() => handleLogoutBtnClick()}></button>
+        <h1>yetiCrab</h1>
+        <button onClick={() => handleSettingsBtnClick()}>Settings</button>
       </header>
-      <section id='mainDisplay'>{cards}</section>
+      <section id='mainDisplay'>{displayItems}</section>
       <footer>
         <button
-          id='addItems'
-          onClick={() => handleAddItemsBtnClick(userId)}
-        ></button>
+          id='selectItem'
+          onClick={() => handleSelectItemBtnClick(userId)}
+        >
+          Add Item
+        </button>
       </footer>
     </div>
   );

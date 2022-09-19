@@ -11,7 +11,7 @@ router.post('/add_item', maintenanceItemController.addItem,  (req, res) => {
 });
 
 router.delete('/delete_item', maintenanceItemController.deleteItem,  (req, res) => {
-  res.status(200).json('Maintenance Item Deleted');
+  res.status(200).json(res.locals.maintenanceDetailsId);
 });
 
 router.put('/update_item_details', maintenanceItemController.updateItemDetails,  (req, res) => {
