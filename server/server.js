@@ -13,6 +13,9 @@ const scheduleController = require('./controllers/scheduleController');
 //parse request body for POST and PUT requests
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, '../client/style.css')));
+
+
 
 // app.get('/', (req, res) => res.status(200).sendFile(path.join( __dirname, '../index.html')));
 app.use('/api/reminders', remindersRouter);
