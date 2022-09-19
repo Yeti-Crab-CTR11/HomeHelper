@@ -1,0 +1,56 @@
+$gradient: linear-gradient(to top ,#eee5e5, rgb(121, 234, 228));
+
+body{
+    background-image: $gradient;
+    background-color:azure;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#root{
+    height: 100vw;
+}
+
+
+.form{
+    width: 40em;
+    margin: auto;
+}
+
+
+div .title {
+    font-weight: bold;
+    font-size: 40px;
+    color: rgb(40, 39, 39);
+    margin: 10px;
+    }
+
+input {
+    margin: 4px;
+}
+
+#frequency {
+font-size: 14px;
+font-weight: bold;
+border-radius: 5px;
+padding: 4px;
+}
+
+#lastSvc {
+    font-size: 14px;
+    padding: 4px;
+    border-radius: 5px;
+    border: 0px;
+}
+
+p {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+button {
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+

@@ -17,7 +17,7 @@ const userController = {
           status: 404,
           message: {
             err: 'Error with request to make new user, please review input fields',
-          },
+          }, 
         });
       });
   },
