@@ -6,8 +6,11 @@ const client = require('twilio')(accountSid, authToken);
 
 const reminderController = {
   sendReminder: (req, res, next) => {
-    const { message, phone_number } = req.body;
-    console.log('message', typeof phone_number)
+    console.log('setting up reminder. Request body: ', req)
+    const { message, phone_number } = req;
+    console.log('message- ', message);
+    console.log('phone- ', phone_number);
+  
 
     client.messages
       .create({
@@ -16,7 +19,7 @@ const reminderController = {
         from: process.env.TWILIO_ACCT_PHONE_NUM, // From a valid Twilio number
       })
       .then((message) => {
-        console.log(message.sid)
+        console.log(message.sid);
         next();
       })
       .catch((err) => {
