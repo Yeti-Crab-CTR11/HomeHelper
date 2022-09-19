@@ -1,5 +1,6 @@
 import React, { useState, createContext } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import Dashboard from './components/dashboard';
 import Login from './components/login';
 import Signup from './components/signup';
@@ -22,8 +23,8 @@ const App = () => {
 
   // **************************HELPER FUNCTIONS*************************
   //select item
-  const handleSetSelectedItem = (newItem) => {
-    setSelectedItem(newItem);
+  const handleSetSelectedItem = (e) => {
+    setSelectedItem(e.target.value);
   };
 
   //cancel button shared with multiple modules
@@ -37,26 +38,30 @@ const App = () => {
       <UserContext.Provider value={[userId, setUserId]}>
         <ItemContext.Provider value={[selectedItem, setSelectedItem]}>
           <Routes>
-            
             <Route index element={<Dashboard />} />
-            <Route path='/login' element={<Login />} />
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<Signup />} />
             <Route
               path='/settings'
-              element={<Settings />}
-              handleCancelBtnClick={handleCancelBtnClick}
+              element={<Settings handleCancelBtnClick={handleCancelBtnClick} />}
             />
             <Route
               path='/selectitem'
-              element={<SelectItem />}
-              handleSetSelectedItem={handleSetSelectedItem}
-              handleCancelBtnClick={handleCancelBtnClick}
+              element={
+                <SelectItem
+                  handleSetSelectedItem={handleSetSelectedItem}
+                  handleCancelBtnClick={handleCancelBtnClick}
+                />
+              }
             />
             <Route
               path='/additem'
-              element={<AddItem />}
-              handleCancelBtnClick={handleCancelBtnClick}
+              element={
+                <AddItem
+                  handleCancelBtnClick={handleCancelBtnClick}
+                  selectedItem={selectedItem}
+                />
+              }
             />
           </Routes>
         </ItemContext.Provider>

@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect, Component } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { UserContext, ItemContext } from '../App';
+import { UserContext } from '../App';
 import APIFunctions from './util/APIfunctions';
 
 /**
@@ -9,11 +9,10 @@ import APIFunctions from './util/APIfunctions';
  * ********************
  **/
 
-const AddItem = () => {
+const AddItem = (props) => {
   const navigate = useNavigate();
   //create the state
   const [userId, setUserId] = useContext(UserContext);
-  const [selectedItem, setSelectedItem] = useContext(ItemContext);
   const [lastSvc, setLastSvc] = useState(null);
   const [freq, setFreq] = useState(3);
 
@@ -24,8 +23,9 @@ const AddItem = () => {
     const request = 'addItem';
     const payload = {
       user_id: userId,
-      item_name: selectedItem,
+      item_name: props.selectedItem,
       last_service_date: lastSvc,
+      next_service_date: '2022-09-19', //DON"T FORGET TO CHANGE THIS!!!
       frequency: freq,
       model: null,
       warranty: null,
@@ -33,8 +33,17 @@ const AddItem = () => {
       vendor_name: null,
       vendor_phone: null,
     };
+    console.log('payload', payload);
     await APIFunctions.maintenance(request, payload);
-    return navigate('/');
+    navigate('/');
+    // return <Navigate to='/' replace={true} />;
+  };
+
+  //cancel button
+  const handleCancelBtnClick = () => {
+    // return <Navigate to='/selectItem' replace={true} />;
+    navigate('/selectItem');
+    //  return;
   };
   // ************************END OF HELPER FUNCTIONS********************
 
@@ -43,14 +52,14 @@ const AddItem = () => {
     <div>
       <button onClick={() => handleCancelBtnClick()}>Cancel</button>
       <header>
-        <h1>{selectedItem}</h1>
+        <h1>{props.selectedItem}</h1>
       </header>
       <section>
         <input
           type='date'
           id='lastSvc'
           onChange={(e) => setLastSvc(e.target.value)}
-        ></input>
+        />
         <p>Select frequency</p>
         <select
           id='frequency'

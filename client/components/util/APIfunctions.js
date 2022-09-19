@@ -16,9 +16,9 @@ APIFunctions.verifyLogin = async (username, password) => {
 
   const data = {
     user_name: username,
-    password: password
+    password: password,
   };
-  
+
   const response = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -29,10 +29,9 @@ APIFunctions.verifyLogin = async (username, password) => {
       // console.log('This runs second.');
       return returnedData;
     })
-    .catch((err) => console.log("Error verifying Login", err));
+    .catch((err) => console.log('Error verifying Login', err));
 
   return response;
-
 };
 
 // CREATE ACCOUNT
@@ -73,44 +72,55 @@ APIFunctions.deleteUser = (payload) => {
 
 //MAINTENANCE API CALLS
 APIFunctions.maintenance = async (request, payload) => {
-  let method, url;
-  //determine method and url
+  let method, url, options;
+  //determine method, url and options
+  if (request === 'getItems') {
+    options = {
+      method: method,
+      headers: { 'Content-Type': 'application/json' },
+    };
+  } else {
+    options = {
+      method: method,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    };
+  }
+
   switch (request) {
     //get items request
     case 'getItems':
-      (method = 'GET'), (url = `/api/maintenance/${payload}`);
+      (options.method = 'GET'), (url = `/api/maintenance/${payload}`);
       break;
     //add item request
     case 'addItem':
-      (method = 'POST'), (url = '/api/maintenance/add_item');
+      (options.method = 'POST'), (url = '/api/maintenance/add_item');
       break;
     //delete item request
     case 'deleteItem':
-      (method = 'DELETE'), (url = '/api/maintenance/delete_item');
+      (options.method = 'DELETE'), (url = '/api/maintenance/delete_item');
       break;
     //get item detail request
     case 'getitemDetails':
-      (method = 'GET'), (url = `/api/maintenance/item_details/${payload}`);
+      (options.method = 'GET'),
+        (url = `/api/maintenance/item_details/${payload}`);
       break;
     //add item detail request
     case 'addItemDetails':
-      (method = 'POST'), (url = `/api/maintenance/add_item_details/`);
+      (options.method = 'POST'), (url = `/api/maintenance/add_item_details/`);
       break;
     //update item detail request
     case 'updateItemDetails':
-      (method = 'PUT'), (url = `/api/maintenance/update_item_details/`);
+      (options.method = 'PUT'), (url = `/api/maintenance/update_item_details/`);
   }
-  console.log(method, url);
+  console.log('METHOD AND URL =====>', options.method, url);
+
   //fetch call
-  response = await fetch(url, {
-    method: method,
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  })
+  const response = await fetch(url, options)
     .then((response) => response.json())
     .then((data) => data)
     .catch((err) => console.log('APIFunctions.maintenance error', err));
-
+  // console.log('THIS IS SECOND');
   //return response
   return response;
 };

@@ -15,50 +15,56 @@ const Dashboard = () => {
   const navigate = useNavigate();
   //create the state
   const [userId, setUserId] = useContext(UserContext);
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState(null);
 
   //redirect to login page if user is not logged in
   if (!userId) return <Navigate replace to='/login' />;
-
-  //listen to changes in state
-  useEffect(async () => {
-    const request = 'getItems';
-    const payload = userId;
-    const currentItems = await APIFunctions.maintenance(request, payload);
-    setItems(currentItems);
-  });
 
   // **************************HELPER FUNCTIONS*************************
   const handleSettingsBtnClick = () => {
     return navigate('/settings');
   };
 
-  const handleAddItemsBtnClick = (userId) => {
-    return navigate('/additems');
+  const handleSelectItemBtnClick = (userId) => {
+    return navigate('/selectitem');
+  };
+
+  const getCurrentItems = async () => {
+    const request = 'getItems';
+    const payload = userId;
+    // console.log('THIS IS FIRST');
+    const currentItems = await APIFunctions.maintenance(request, payload);
+    // console.log('THIS IS THIRD');
+    console.log(currentItems);
+    setItems(currentItems);
   };
   // ************************END OF HELPER FUNCTIONS********************
-
+  useEffect(() => {
+    getCurrentItems();
+  }, []);
+  console.log('items', items);
   // display on line 67
-  const displayItems =
-    items.length < 1 ? (
-      <div>
-        <p>
-          Please click on the "+" icon at the bottom left section to add
-          maintenance items.
-        </p>
-      </div>
-    ) : (
-      items.map((item, idx) => {
-        <Card
-          key={idx}
-          maintenance_item_id={item._id}
-          item_name={item.item_name}
-          last_service_date={'DATE VALUE'}
-          next_service_date={'DATE VALUE'}
-          frequency={'NUMBER VALUE'}
-        />;
-      })
-    );
+  const displayItems = (!items || !items.length) ? (
+    <div>
+      <p>
+        Please click on the "+" icon at the bottom left section to add
+        maintenance items.
+      </p>
+    </div>
+  ) : (
+    items.map((item, idx) => {
+      return (
+      <Card
+        key={idx}
+        maintenance_item_id={item._id}
+        item_name={item.item_name}
+        last_service_date={'DATE VALUE'}
+        next_service_date={'DATE VALUE'}
+        frequency={'NUMBER VALUE'}
+        />
+        )
+    })
+  );
 
   //render page
   return (
@@ -70,9 +76,11 @@ const Dashboard = () => {
       <section id='mainDisplay'>{displayItems}</section>
       <footer>
         <button
-          id='addItems'
-          onClick={() => handleAddItemsBtnClick(userIdId)}
-        ></button>
+          id='selectItem'
+          onClick={() => handleSelectItemBtnClick(userId)}
+        >
+          Add Item
+        </button>
       </footer>
     </div>
   );

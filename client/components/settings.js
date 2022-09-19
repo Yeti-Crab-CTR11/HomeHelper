@@ -18,11 +18,6 @@ const Settings = async () => {
   //redirect to dashboard if user is not logged in
   if (!userId) return navigate('/');
 
-  //listener for user profile
-  useEffect(async () => {
-    const apiUserProfile = await APIFunctions.getUserProfile(userId);
-    setUserProfile(apiUserProfile);
-  });
   // **************************HELPER FUNCTIONS*************************
   //cancel button
   //--handleCancelBtnClick in App.js
@@ -40,7 +35,15 @@ const Settings = async () => {
     if (response === 'User Deleted') return handleSignOutBtnClick();
     else return navigate('/settings');
   };
+
+  //listener for user profile
+  const getUserProfile = async () => {
+    const apiUserProfile = await APIFunctions.getUserProfile(userId);
+    setUserProfile(apiUserProfile);
+  };
   // ************************END OF HELPER FUNCTIONS********************
+
+  getUserProfile();
 
   //deconstructing userProfile
   const { name, address, phone, email, username } = userProfile;
