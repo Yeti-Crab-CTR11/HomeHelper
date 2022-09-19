@@ -12,22 +12,22 @@ import Card from './card';
 
 const Dashboard = () => {
   //create the state
-  const [user, setUser] = useContext(UserContext);
+  const [userId, setUserId] = useContext(UserContext);
   const [items, setItems] = useState(null);
 
   //redirect to login page if user is not logged in
-  if (!user) return <Navigate replace to='/login' />;
+  if (!userId) return <Navigate replace to='/login' />;
   if (!items) return <Navigate replace to='/additems' />;
 
   //listen to changes in state
   useEffect(() => {
-    const currentItems = APIFunctions.getItems(user);
+    const currentItems = APIFunctions.getItems(userId);
     setItems(currentItems);
   });
 
   // **************************HELPER FUNCTIONS*************************
   const handleLogoutBtnClick = () => {
-    setUser(null);
+    setUserId(null);
     return <Navigate replace to='/login' />;
   };
 
@@ -51,13 +51,13 @@ const Dashboard = () => {
     <div>
       <header>
         <h1>homeBuddy</h1>
-        <button id='logout' onClick={() => handleLogOutBtnClick()}></button>
+        <button id='logout' onClick={() => handleLogoutBtnClick()}></button>
       </header>
       <section id='mainDisplay'>{cards}</section>
       <footer>
         <button
           id='addItems'
-          onClick={() => handleAddItemsBtnClick(user)}
+          onClick={() => handleAddItemsBtnClick(userId)}
         ></button>
       </footer>
     </div>
