@@ -14,7 +14,7 @@ import Card from './card';
 const Dashboard = () => {
   //create the state
   const [userId, setUserId] = useContext(UserContext);
-  const [items, setItems] = useState(null);
+  const [items, setItems] = useState([]);
 
   //redirect to login page if user is not logged in
   if (!userId) return <Navigate replace to='/login' />;
@@ -35,23 +35,26 @@ const Dashboard = () => {
   };
   // ************************END OF HELPER FUNCTIONS********************
 
-  const displayItems = !items ? (
-    <div>
-      <p>
-        Please click on the "+" icon at the bottom left section to add
-        maintenance items.
-      </p>
-    </div>
-  ) : (
-    items.map((item, idx) => {
-      <Card
-        key={item._id}
-        item={item.item_name}
-        lastSvc={'DATE VALUE'}
-        nextSvc={'DATE VALUE'}
-      />;
-    })
-  );
+  const displayItems =
+    items.length < 1 ? (
+      <div>
+        <p>
+          Please click on the "+" icon at the bottom left section to add
+          maintenance items.
+        </p>
+      </div>
+    ) : (
+      items.map((item, idx) => {
+        <Card
+          key={idx}
+          maintenance_item_id={item._id}
+          item_name={item.item_name}
+          last_service_date={'DATE VALUE'}
+          next_service_date={'DATE VALUE'}
+          frequency={'NUMBER VALUE'}
+        />;
+      })
+    );
 
   //render page
   return (

@@ -1,5 +1,7 @@
-import React, { useState, Component } from 'react';
+import React, { useState, useContext, Component } from 'react';
 import { Navigate } from 'react-router-dom';
+import { UserContext } from '../App';
+import APIFunctions from './util/APIfunctions';
 
 /**
  * ********************
@@ -8,9 +10,18 @@ import { Navigate } from 'react-router-dom';
  **/
 
 const Card = () => {
+  const [userId, setUserId] = useContext(UserContext);
   const [moreDetails, setMoreDetails] = useState(false);
 
   // **************************HELPER FUNCTIONS*************************
+  const deleteItemBtnClick = async () => {
+    const request = 'deleteItem';
+    const payload = {
+      maintenance_item_id: maintenance_item_id,
+    };
+    await APIFunctions.maintenance(request, payload);
+    return <Navigate replace to='/' />;
+  };
   // ************************END OF HELPER FUNCTIONS********************
 
   //render this if moreDetails is true
@@ -48,6 +59,7 @@ const Card = () => {
         <p>Next Service Date: {props.nextSvc}</p>
       </div>
       {moreDetails ? moreDetailsOn : moreDetailsOff}
+      <button onClick={() => deleteItemBtnClick()}>Delete Item</button>
     </section>
   );
 };

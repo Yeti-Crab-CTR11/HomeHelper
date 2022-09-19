@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect, Component } from 'react';
 import { Navigate } from 'react-router-dom';
 import { UserContext } from '../App';
-import Card from './card';
 import APIFunctions from './util/APIfunctions';
 
 /**

@@ -13,7 +13,7 @@ import AddItemDetails from './components/additemdetails';
  * ********************
  **/
 const UserContext = createContext([{}, () => {}]);
-const ItemContext = createContext([{}, () => {}]);
+const ItemContext = createContext([{}, () => {}]); 
 
 const App = () => {
   //set user state
