@@ -14,15 +14,6 @@ router.delete('/delete_item', maintenanceItemController.deleteItem,  (req, res) 
   res.status(200).json('Maintenance Item Deleted');
 });
 
-//ITEM DETAILS ROUTES
-router.get('/item_details/:maintenance_item_id', maintenanceItemController.getItemDetails,  (req, res) => {
-  res.status(200).json(res.locals.maintenanceDetails);
-});
-
-router.post('/add_item_details', maintenanceItemController.addItemDetails,  (req, res) => {
-  res.status(200).json(res.locals.maintenanceDetailsId);
-});
-
 router.put('/update_item_details', maintenanceItemController.updateItemDetails,  (req, res) => {
   res.status(200).json(res.locals.maintenanceDetailsId);
 });
