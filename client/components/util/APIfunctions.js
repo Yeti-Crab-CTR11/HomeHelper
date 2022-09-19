@@ -53,10 +53,22 @@ APIFunctions.createUser = (username, password, email, phoneNumber) => {
     .catch((err) => console.log('Error creating new user data', err));
 };
 
+// DELETE ACCOUNT
+APIFunctions.deleteUser = (payload) => {
+  fetch(url, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  })
+    .then((response) => response.json())
+    .then((data) => data)
+    .catch((err) => console.log('APIFunctions.deleteUser error', err));
+};
+
 // GET ITEMS IN USER LIST
 // expected return [{  name: String, lastSvc: String, nextSvc: String  }]
-APIFunctions.getItems = (userId) => {
-  const url = `/api/${userId}`;
+APIFunctions.getItems = (payload) => {
+  const url = `/api/maintenance${userId}`;
   fetch(url)
     .then((response) => response.json())
     .then((data) => data)

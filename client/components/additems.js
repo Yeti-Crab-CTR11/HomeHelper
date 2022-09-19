@@ -10,28 +10,23 @@ import APIFunctions from './util/APIfunctions';
  * ********************
  **/
 
-const defaultList = ['FirePlace', 'Gutters', 'HVAC', 'Pool'];
-
 const AddItems = () => {
   //create the state
   const [userId, setUserId] = useContext(UserContext);
   const [items, setItems] = useState(null);
 
-  //TEST//TEST//TEST//TEST//TEST//TEST//TEST//TEST
-  //
-  //TEST//TEST//TEST//TEST//TEST//TEST//TEST//TEST
+  //redirect to dashboard if user is not logged in
+  if (!userId) return <Navigate replace to='/' />;
 
-  //redirect to login page if user is not logged in
-  if (!userId) return <Navigate replace to='/login' />;
-
-  //check items for missing maintenance items to add
-  //listen to changes in state
+  //listen to changes in user maintenance items
   useEffect(() => {
     const currentItems = APIFunctions.getItems(userId);
     setItems(currentItems);
   });
 
   // **************************HELPER FUNCTIONS*************************
+  //--handleCancelBtnClick in App.js
+
   const handleSelectItemBtnClick = (e) => {
     handleSetSelectedItem(e.target.value);
     return <Navigate replace to='/itemdetails' />;
@@ -39,9 +34,8 @@ const AddItems = () => {
   // ************************END OF HELPER FUNCTIONS********************
 
   //get missing items
-  const missingItems = defaultList.filter(
-    (item) => !items.includes(item.name)
-  );
+  const defaultList = ['FirePlace', 'Gutters', 'HVAC', 'Pool'];
+  const missingItems = defaultList.filter((item) => !items.includes(item.name));
 
   //build items list
   const itemsList = missingItems.map((item, idx) => (
@@ -53,6 +47,7 @@ const AddItems = () => {
   //render
   render(
     <div>
+      <button onClick={() => handleCancelBtnClick()}>Cancel</button>
       <header>
         <h1>Select item</h1>
       </header>

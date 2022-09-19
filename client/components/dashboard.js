@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect, Component } from 'react';
 import { Navigate } from 'react-router-dom';
 import { UserContext } from '../App';
 import APIFunctions from './util/APIfunctions';
+import Settings from './settings';
 import Card from './card';
 
 /**
@@ -17,7 +18,6 @@ const Dashboard = () => {
 
   //redirect to login page if user is not logged in
   if (!userId) return <Navigate replace to='/login' />;
-  if (!items) return <Navigate replace to='/additems' />;
 
   //listen to changes in state
   useEffect(() => {
@@ -26,9 +26,8 @@ const Dashboard = () => {
   });
 
   // **************************HELPER FUNCTIONS*************************
-  const handleLogoutBtnClick = () => {
-    setUserId(null);
-    return <Navigate replace to='/login' />;
+  const handleSettingsBtnClick = () => {
+    return <Navigate replace to='/settings' />;
   };
 
   const handleAddItemsBtnClick = (userId) => {
@@ -36,24 +35,32 @@ const Dashboard = () => {
   };
   // ************************END OF HELPER FUNCTIONS********************
 
-  //iterate thru cards and create cards to be displayed
-  const cards = items.map((item, idx) => {
-    <Card
-      key={idx}
-      item={item.name}
-      lastSvc={item.lastSvc}
-      nextSvc={item.nextSvc}
-    />;
-  });
+  const displayItems = !items ? (
+    <div>
+      <p>
+        Please click on the "+" icon at the bottom left section to add
+        maintenance items.
+      </p>
+    </div>
+  ) : (
+    items.map((item, idx) => {
+      <Card
+        key={idx}
+        item={item.name}
+        lastSvc={item.lastSvc}
+        nextSvc={item.nextSvc}
+      />;
+    })
+  );
 
   //render page
   return (
     <div>
       <header>
-        <h1>homeBuddy</h1>
-        <button onClick={() => handleLogOutBtnClick()}>X</button>
+        <h1>yetiCrab</h1>
+        <button onClick={() => handleSettingsBtnClick()}>Settings</button>
       </header>
-      <section id='mainDisplay'>{cards}</section>
+      <section id='mainDisplay'>{displayItems}</section>
       <footer>
         <button
           id='addItems'

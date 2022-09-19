@@ -1,6 +1,5 @@
-import React, { useState, useContext, Component } from 'react';
+import React, { useState, Component } from 'react';
 import { Navigate } from 'react-router-dom';
-import { UserContext } from '../App';
 
 /**
  * ********************
@@ -9,30 +8,15 @@ import { UserContext } from '../App';
  **/
 
 const Card = () => {
-  const [userId, setUserId] = useContext(UserContext);
   const [moreDetails, setMoreDetails] = useState(false);
 
-  //redirect to login page if user is not logged in
-  if (!userId) return <Navigate replace to='/login' />;
-
   // **************************HELPER FUNCTIONS*************************
-  const handleCloseBtnClick = () => {
-    return <Navigate replace to='/' />;
-  };
-
-  const handleLogoutBtnClick = () => {
-    setUserId(null);
-    return <Navigate replace to='/login' />;
-  };
   // ************************END OF HELPER FUNCTIONS********************
 
-  //render this if detailToggleOff is true
+  //render this if moreDetails is true
   const moreDetailsOn = (
     <div>
-      <button onClick={() => handleLogOutBtnClick()}>X</button>
       <article>
-        <p>Last Service Date: {props.lastSvc}</p>
-        <p>Next Service Date: {props.nextSvc}</p>
         <p>
           Precisionism postmodern art maximalism tachism hyperrealism sound art
           les nabis ottonian gründerzeit, fluxus cobra sound art expressionism
@@ -43,11 +27,9 @@ const Card = () => {
     </div>
   );
 
-  //render this if detailToggleOff is false
+  //render this if moreDetails is false
   const moreDetailsOff = (
     <article>
-      <p>Last Service Date: {props.lastSvc}</p>
-      <p>Next Service Date: {props.nextSvc}</p>
       <button onClick={() => setMoreDetails(true)}>More Details</button>
     </article>
   );
@@ -60,9 +42,12 @@ const Card = () => {
       {moreDetails ? <img src={imgUrl} /> : ''}
       <header>
         <h2>{props.item}</h2>
-        <button onClick={() => handleCloseBtnClick()}>Close</button>
       </header>
-      <div>{moreDetails ? moreDetailsOn : moreDetailsOff}</div>
+      <div>
+        <p>Last Service Date: {props.lastSvc}</p>
+        <p>Next Service Date: {props.nextSvc}</p>
+      </div>
+      {moreDetails ? moreDetailsOn : moreDetailsOff}
     </section>
   );
 };

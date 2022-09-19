@@ -27,20 +27,16 @@ const AddItemDetails = () => {
       frequency: freq,
     };
     APIFunctions.addItemDetails(payload);
-    return <Navigate replace to='/dashboard' />;
-  };
-
-  // cancel button
-  const handleCancelBtnClick = () => {
-    return <Navigate replace to='/dashboard' />;
+    return <Navigate replace to='/' />;
   };
   // ************************END OF HELPER FUNCTIONS********************
 
   //render
   return (
     <div>
+      <button onClick={() => handleCancelBtnClick()}>Cancel</button>
       <header>
-        <h1>{itemName}</h1>
+        <h1>{selectedItem}</h1>
       </header>
       <section>
         <input
@@ -61,7 +57,6 @@ const AddItemDetails = () => {
           <option value='24'>24 months</option>
         </select>
         <button onClick={() => handleSubmitBtnClick()}>Submit</button>
-        <button onClick={() => handleCancelBtnClick()}>Submit</button>
       </section>
     </div>
   );
