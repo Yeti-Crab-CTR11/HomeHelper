@@ -45,10 +45,10 @@ const Dashboard = () => {
   ) : (
     items.map((item, idx) => {
       <Card
-        key={idx}
-        item={item.name}
-        lastSvc={item.lastSvc}
-        nextSvc={item.nextSvc}
+        key={item._id}
+        item={item.item_name}
+        lastSvc={'DATE VALUE'}
+        nextSvc={'DATE VALUE'}
       />;
     })
   );

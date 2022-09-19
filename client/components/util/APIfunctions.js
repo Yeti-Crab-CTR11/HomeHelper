@@ -66,9 +66,8 @@ APIFunctions.deleteUser = (payload) => {
 };
 
 // GET ITEMS IN USER LIST
-// expected return [{  name: String, lastSvc: String, nextSvc: String  }]
 APIFunctions.getItems = (payload) => {
-  const url = `/api/maintenance${userId}`;
+  const url = `/api/maintenance/${payload}`;
   fetch(url)
     .then((response) => response.json())
     .then((data) => data)

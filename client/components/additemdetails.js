@@ -19,14 +19,14 @@ const AddItemDetails = () => {
   // **************************HELPER FUNCTIONS*************************
 
   // submit button
-  const handleSubmitBtnClick = () => {
+  const handleSubmitBtnClick = async () => {
     const payload = {
       user_id: userId,
       item_name: selectedItem,
       last_service_date: lastSvc,
       frequency: freq,
     };
-    APIFunctions.addItemDetails(payload);
+    await APIFunctions.addItemDetails(payload);
     return <Navigate replace to='/' />;
   };
   // ************************END OF HELPER FUNCTIONS********************
