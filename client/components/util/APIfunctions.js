@@ -27,21 +27,21 @@ APIFunctions.verifyLogin = async (username, password) => {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
   })
-  .then((response) => response.json())
-  .then((returnedData) => {
-    console.log('This runs second.');
-    return returnedData;
-  })
-  .catch((err) => console.log("Error verifying Login", err));
+    .then((response) => response.json())
+    .then((returnedData) => {
+      // console.log('This runs second.');
+      return returnedData;
+    })
+    .catch((err) => console.log("Error verifying Login", err));
 
   return response;
 
-}
+};
 
 // CREATE ACCOUNT
 
-APIFunctions.createUser = (username, password, email, phoneNumber) => {
-  const url ='/api/users/new_user';
+APIFunctions.createUser = async (username, password, email, phoneNumber) => {
+  const url = '/api/users/new_user';
   // from server post on Excalidraw
   const data = {
     user_name: username,
@@ -50,16 +50,17 @@ APIFunctions.createUser = (username, password, email, phoneNumber) => {
     phone: phoneNumber
   };
 
-    fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    })
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  })
     .then((response) => response.json())
     .then((returnedData) => returnedData)
-    .catch((err) => console.log("Error creating new user data", err))
+    .catch((err) => console.log('Error creating new user data', err));
 
-}
+  return response;
+};
 
 // GET ITEMS IN USER LIST
 APIFunctions.getItems = (user) => {

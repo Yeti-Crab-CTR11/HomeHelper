@@ -36,9 +36,9 @@ const Login = () => {
 
     // console.log('username and pw is', uname.value, pass.value);
     
-    console.log("This runs first");
+    // console.log("This runs first");
     const userData = await APIFunctions.verifyLogin(uname.value, pass.value);
-    console.log("this runs third.");
+    // console.log("this runs third.");
     // What syntax do we need to find this data?
     // I should make a post request to my server(api)
 

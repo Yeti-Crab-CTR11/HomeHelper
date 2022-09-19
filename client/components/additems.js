@@ -12,7 +12,7 @@ import APIFunctions from './util/APIfunctions';
 
 const defaultList = ['FirePlace', 'Gutters', 'HVAC', 'Pool'];
 
-const AddItems = () => {
+const AddItems = (props) => {
   //create the state
   const [user, setUser] = useContext(UserContext);
   const [items, setItems] = useState(null);
@@ -33,7 +33,7 @@ const AddItems = () => {
 
   // **************************HELPER FUNCTIONS*************************
   const handleChooseItemBtnClick = (e) => {
-    handleSetItemName(e.target.value);
+    props.handleSetItemName(e.target.value);
     return <Navigate replace to='/itemdetails' />;
   };
   // ************************END OF HELPER FUNCTIONS********************
@@ -51,7 +51,7 @@ const AddItems = () => {
   ));
 
   //render
-  render(
+  return(
     <div>
       <header>
         <h1>Select item</h1>

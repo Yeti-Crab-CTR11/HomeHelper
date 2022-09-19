@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect, Component } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import {UserContext} from '../App';
 import APIFunctions from './util/APIfunctions';
 
@@ -13,6 +13,7 @@ import APIFunctions from './util/APIfunctions';
 
 const SignUp = () => {
 
+  const navigate = useNavigate();
   const [user, setUser] = useContext(UserContext);
   const [errorMessages, setErrorMessages] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -25,38 +26,44 @@ const SignUp = () => {
     phone: "Please enter a valid ten-digit phone number."
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
 
     //Prevent page reload
     event.preventDefault();
 
-    let { uname, pass, email, phone } = document.forms[0];
+    const { uname, pass, email, phone } = document.forms[0];
 
-    console.log(uname, pass, email, phone);
+    console.log(uname.value, pass.value, email.value, phone.value);
+
+    console.log('Type of phone.value is ', typeof Number(phone.value));
 
 
-    if (uname === undefined || typeof uname !== 'string') setErrorMessages({ name: "uname", message: errors.uname });
-    else if (pass === undefined || typeof pass !== 'string') setErrorMessages({ name: "pass", message: errors.pass });
-    else if (email === undefined || typeof email !== 'string') setErrorMessages({ name: "email", message: errors.email });
-    else if (phone === undefined || typeof phone !== 'number') setErrorMessages({ name: "phone", message: errors.phone });
+    if (uname.value === undefined || typeof uname.value !== 'string') setErrorMessages({ name: "uname", message: errors.uname });
+    else if (pass.value === undefined || typeof pass.value !== 'string') setErrorMessages({ name: "pass", message: errors.pass });
+    else if (email.value === undefined || typeof email.value !== 'string') setErrorMessages({ name: "email", message: errors.email });
+    else if (Number(phone.value) === undefined || typeof Number(phone.value) !== 'number') setErrorMessages({ name: "phone", message: errors.phone });
     
     else {
-      const userData = APIFunctions.createUser(uname, pass, email, phone);
+      const userData = await APIFunctions.createUser(uname.value, pass.value, email.value, Number(phone.value));
 
       if (userData) {
+        console.log('New User created!');
         setIsSubmitted(true);
-        setUser(uname);
-        return <Navigate replace to='/dashboard' />;
+        setUser(userData);
+        console.log(userData);
+        return navigate('/');
+        // return <Navigate replace to='/dashboard' />;
       }
-      else console.error("Did not return correct user data from API during CreateUser function in signup")
+      else console.error('Did not return correct user data from API during CreateUser function in signup');
     }  
   };
 
 
 
   const handleClick = () => {
-      return <Navigate replace to='/login' />
-  }
+    // return <Navigate replace to='/login' />
+    return navigate('/login');
+  };
 
 
 
