@@ -30,7 +30,9 @@ const App = () => {
       <UserContext.Provider value={[user, setUser]}>
         <ItemContext.Provider value={[itemName, setItemName]}>
           <Routes>
+            
             <Route index element={<Dashboard />} />
+            <Route path='/login' element={<Login />} />
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<Signup />} />
             <Route
