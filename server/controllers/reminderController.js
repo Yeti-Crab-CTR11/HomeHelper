@@ -13,7 +13,7 @@ const reminderController = {
       .create({
         body: message,
         to: phone_number, // Text this number
-        from: '+19032317830', // From a valid Twilio number
+        from: process.env.TWILIO_ACCT_PHONE_NUM, // From a valid Twilio number
       })
       .then((message) => {
         console.log(message.sid)
