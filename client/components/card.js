@@ -1,5 +1,5 @@
-import React, { useState, useContext, Component } from 'react';
-import { Navigate } from 'react-router-dom';
+import React, { useState, useContext, Component, useEffect } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { UserContext } from '../App';
 import APIFunctions from './util/APIfunctions';
 
@@ -9,9 +9,19 @@ import APIFunctions from './util/APIfunctions';
  * ********************
  **/
 
-const Card = () => {
+const Card = (props) => {
+  const navigate = useNavigate();
   const [userId, setUserId] = useContext(UserContext);
   const [moreDetails, setMoreDetails] = useState(false);
+  const [itemDetails, setItemDetails] = useState(null);
+
+  //listener to get item details
+  useEffect(async () => {
+    const request = 'getItemDetails';
+    const payload = props.maintenance_item_id;
+    const response = await APIFunctions.maintenance(request, payload);
+    setItemDetails(response);
+  });
 
   // **************************HELPER FUNCTIONS*************************
   const deleteItemBtnClick = async () => {
@@ -20,19 +30,27 @@ const Card = () => {
       maintenance_item_id: maintenance_item_id,
     };
     await APIFunctions.maintenance(request, payload);
-    return <Navigate replace to='/' />;
+    return navigate('/');
   };
   // ************************END OF HELPER FUNCTIONS********************
+
+  //current item details
+  const { model, warranty, resources, vendor_name, vendor_phone } = itemDetails;
+  const displayItemDetails = (
+    <section>
+      <p>Model: {model}</p>
+      <p>Warranty: {warranty}</p>
+      <p>Resources: {resources}</p>
+      <p>Vendor Name: {vendor_name}</p>
+      <p>Vendor Phone: {vendor_phone}</p>
+    </section>
+  );
 
   //render this if moreDetails is true
   const moreDetailsOn = (
     <div>
       <article>
-        <p>
-          Precisionism postmodern art maximalism tachism hyperrealism sound art
-          les nabis ottonian gründerzeit, fluxus cobra sound art expressionism
-          social realism russian futurism art nouveau.
-        </p>
+        {displayItemDetails}
         <button onClick={() => setMoreDetails(false)}>Less Details</button>
       </article>
     </div>

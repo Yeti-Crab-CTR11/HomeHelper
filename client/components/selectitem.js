@@ -1,25 +1,28 @@
 import React, { useState, useContext, useEffect, Component } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { UserContext } from '../App';
 import APIFunctions from './util/APIfunctions';
 
 /**
  * ********************
- * @module Items
+ * @module SelectItem
  * ********************
  **/
 
-const AddItems = () => {
+const SelectItem = () => {
+  const navigate = useNavigate();
   //create the state
   const [userId, setUserId] = useContext(UserContext);
   const [items, setItems] = useState(null);
 
   //redirect to dashboard if user is not logged in
-  if (!userId) return <Navigate replace to='/' />;
+  if (!userId) return navigate('/');
 
   //listen to changes in user maintenance items
-  useEffect(() => {
-    const currentItems = APIFunctions.getItems(userId);
+  useEffect(async () => {
+    const request = 'getItems';
+    const payload = userId;
+    const currentItems = await APIFunctions.maintenance(request, payload);
     setItems(currentItems);
   });
 
@@ -28,7 +31,7 @@ const AddItems = () => {
 
   const handleSelectItemBtnClick = (e) => {
     handleSetSelectedItem(e.target.value);
-    return <Navigate replace to='/itemdetails' />;
+    return navigate('/additem');
   };
   // ************************END OF HELPER FUNCTIONS********************
 
@@ -55,4 +58,4 @@ const AddItems = () => {
   );
 };
 
-export default AddItems;
+export default SelectItem;

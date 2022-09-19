@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect, Component } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { UserContext } from '../App';
 import APIFunctions from './util/APIfunctions';
 import Settings from './settings';
@@ -12,6 +12,7 @@ import Card from './card';
  **/
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   //create the state
   const [userId, setUserId] = useContext(UserContext);
   const [items, setItems] = useState([]);
@@ -20,21 +21,24 @@ const Dashboard = () => {
   if (!userId) return <Navigate replace to='/login' />;
 
   //listen to changes in state
-  useEffect(() => {
-    const currentItems = APIFunctions.getItems(userId);
+  useEffect(async () => {
+    const request = 'getItems';
+    const payload = userId;
+    const currentItems = await APIFunctions.maintenance(request, payload);
     setItems(currentItems);
   });
 
   // **************************HELPER FUNCTIONS*************************
   const handleSettingsBtnClick = () => {
-    return <Navigate replace to='/settings' />;
+    return navigate('/settings');
   };
 
   const handleAddItemsBtnClick = (userId) => {
-    return <Navigate replace to='/additems' />;
+    return navigate('/additems');
   };
   // ************************END OF HELPER FUNCTIONS********************
 
+  // display on line 67
   const displayItems =
     items.length < 1 ? (
       <div>

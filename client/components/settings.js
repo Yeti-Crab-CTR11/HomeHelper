@@ -1,5 +1,5 @@
-import React, { useContext, useState, Component } from 'react';
-import { Navigate } from 'react-router-dom';
+import React, { useContext, useState, Component, useEffect } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { UserContext } from '../App';
 import APIFunctions from './util/APIfunctions';
 /**
@@ -8,18 +8,21 @@ import APIFunctions from './util/APIfunctions';
  * ********************
  **/
 
-const Settings = () => {
+const Settings = async () => {
+  const navigate = useNavigate();
   //create the state
   const [userId, setUserId] = useContext(UserContext);
   const [userProfile, setUserProfile] = useState(null);
   const [deleteUser, setDeleteUser] = useState(false);
 
   //redirect to dashboard if user is not logged in
-  if (!userId) return <Navigate replace to='/' />;
+  if (!userId) return navigate('/');
 
-  //pull user profile from database
-  setUserProfile(APIFunctions.getUserProfile(userId));
-
+  //listener for user profile
+  useEffect(async () => {
+    const apiUserProfile = await APIFunctions.getUserProfile(userId);
+    setUserProfile(apiUserProfile);
+  });
   // **************************HELPER FUNCTIONS*************************
   //cancel button
   //--handleCancelBtnClick in App.js
@@ -27,7 +30,7 @@ const Settings = () => {
   //sign out button
   const handleSignOutBtnClick = () => {
     setUserId(null);
-    return <Navigate replace to='/' />;
+    return navigate('/');
   };
 
   //delete user api call
@@ -35,7 +38,7 @@ const Settings = () => {
     const payload = { user_id: userId };
     const response = await APIFunctions.deleteUser(payload);
     if (response === 'User Deleted') return handleSignOutBtnClick();
-    else return <Navigate replace to='/settings' />;
+    else return navigate('/settings');
   };
   // ************************END OF HELPER FUNCTIONS********************
 

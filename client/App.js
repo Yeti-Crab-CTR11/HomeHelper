@@ -4,8 +4,8 @@ import Dashboard from './components/dashboard';
 import Login from './components/login';
 import Signup from './components/signup';
 import Settings from './components/settings';
-import AddItems from './components/additems';
-import AddItemDetails from './components/additemdetails';
+import SelectItem from './components/selectitem';
+import AddItem from './components/additem';
 
 /**
  * ********************
@@ -13,7 +13,7 @@ import AddItemDetails from './components/additemdetails';
  * ********************
  **/
 const UserContext = createContext([{}, () => {}]);
-const ItemContext = createContext([{}, () => {}]); 
+const ItemContext = createContext([{}, () => {}]);
 
 const App = () => {
   //set user state
@@ -37,9 +37,7 @@ const App = () => {
       <UserContext.Provider value={[userId, setUserId]}>
         <ItemContext.Provider value={[selectedItem, setSelectedItem]}>
           <Routes>
-            
             <Route index element={<Dashboard />} />
-            <Route path='/login' element={<Login />} />
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<Signup />} />
             <Route
@@ -48,14 +46,14 @@ const App = () => {
               handleCancelBtnClick={handleCancelBtnClick}
             />
             <Route
-              path='/additems'
-              element={<AddItems />}
+              path='/selectitem'
+              element={<SelectItem />}
               handleSetSelectedItem={handleSetSelectedItem}
               handleCancelBtnClick={handleCancelBtnClick}
             />
             <Route
-              path='/additemdetails'
-              element={<AddItemDetails />}
+              path='/additem'
+              element={<AddItem />}
               handleCancelBtnClick={handleCancelBtnClick}
             />
           </Routes>

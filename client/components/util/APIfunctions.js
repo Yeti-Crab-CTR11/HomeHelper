@@ -1,6 +1,5 @@
+import { response } from 'express';
 import React from 'react';
-
-import { Navigate } from 'react-router-dom';
 
 /**
  * ********************
@@ -12,8 +11,7 @@ import { Navigate } from 'react-router-dom';
 const APIFunctions = {};
 
 // VERIFY LOGIN
-
-APIFunctions.verifyLogin = (username, password) => {
+APIFunctions.verifyLogin = async (username, password) => {
   const url = '/api/users/login';
 
   const data = {
@@ -21,7 +19,7 @@ APIFunctions.verifyLogin = (username, password) => {
     password: password,
   };
 
-  fetch(url, {
+  const response = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
@@ -29,11 +27,12 @@ APIFunctions.verifyLogin = (username, password) => {
     .then((response) => response.json())
     .then((returnedData) => returnedData)
     .catch((err) => console.log('Error verifying Login', err));
+
+  return response;
 };
 
 // CREATE ACCOUNT
-
-APIFunctions.createUser = (username, password, email, phoneNumber) => {
+APIFunctions.createUser = async (username, password, email, phoneNumber) => {
   const url = '/api/users/new_user';
   // from server post on Excalidraw
   const data = {
@@ -43,7 +42,7 @@ APIFunctions.createUser = (username, password, email, phoneNumber) => {
     phone: phoneNumber,
   };
 
-  fetch(url, {
+  const response = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
@@ -51,6 +50,8 @@ APIFunctions.createUser = (username, password, email, phoneNumber) => {
     .then((response) => response.json())
     .then((returnedData) => returnedData)
     .catch((err) => console.log('Error creating new user data', err));
+
+  return response;
 };
 
 // DELETE ACCOUNT
@@ -65,30 +66,8 @@ APIFunctions.deleteUser = (payload) => {
     .catch((err) => console.log('APIFunctions.deleteUser error', err));
 };
 
-// GET ITEMS IN USER LIST //TO BE UPDATED IN COMPONENT
-APIFunctions.getItems = (payload) => {
-  const url = `/api/maintenance/${payload}`;
-  fetch(url)
-    .then((response) => response.json())
-    .then((data) => data)
-    .catch((err) => console.log('APIFunctions.getItems error', err));
-};
-
-//ADD NEW ITEM DETAILS //TO BE UPDATED IN COMPONENT
-APIFunctions.addItemDetails = (payload) => {
-  const url = '/api/maintenance/add_item';
-  fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  })
-    .then((response) => response.json())
-    .then((data) => data)
-    .catch((err) => console.log('APIFunctions.addItemDetails error', err));
-};
-
 //MAINTENANCE API CALLS
-APIFunctions.maintenance = (request, payload) => {
+APIFunctions.maintenance = async (request, payload) => {
   let method, url;
   //determine method and url
   switch (request) {
@@ -109,15 +88,16 @@ APIFunctions.maintenance = (request, payload) => {
       (method = 'GET'), (url = `/api/maintenance/item_details/${payload}`);
       break;
     //add item detail request
-    case 'addItemDetail':
+    case 'addItemDetails':
       (method = 'POST'), (url = `/api/maintenance/add_item_details/`);
       break;
     //update item detail request
     case 'updateItemDetails':
       (method = 'PUT'), (url = `/api/maintenance/update_item_details/`);
   }
+  console.log(method, url);
   //fetch call
-  url = fetch(url, {
+  response = await fetch(url, {
     method: method,
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
@@ -125,6 +105,9 @@ APIFunctions.maintenance = (request, payload) => {
     .then((response) => response.json())
     .then((data) => data)
     .catch((err) => console.log('APIFunctions.maintenance error', err));
+
+  //return response
+  return response;
 };
 
 export default APIFunctions;

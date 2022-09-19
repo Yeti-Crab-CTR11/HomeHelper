@@ -45,7 +45,7 @@ const Login = () => {
       setIsSubmitted(true);
       setUserId(userData);
       // I want to set the state for the user by pulling data from the database
-      return <Navigate replace to='/dashboard' />;
+      return <Navigate replace to='/' />;
       //is this correct syntax?
       // }
     } else {
