@@ -10,27 +10,33 @@ import React from 'react';
 const APIFunctions = {};
 
 // VERIFY LOGIN
+
 APIFunctions.verifyLogin = async (username, password) => {
   const url = '/api/users/login';
 
   const data = {
     user_name: username,
-    password: password,
+    password: password
   };
-
+  
   const response = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
   })
     .then((response) => response.json())
-    .then((returnedData) => returnedData)
-    .catch((err) => console.log('Error verifying Login', err));
+    .then((returnedData) => {
+      // console.log('This runs second.');
+      return returnedData;
+    })
+    .catch((err) => console.log("Error verifying Login", err));
 
   return response;
+
 };
 
 // CREATE ACCOUNT
+
 APIFunctions.createUser = async (username, password, email, phoneNumber) => {
   const url = '/api/users/new_user';
   // from server post on Excalidraw

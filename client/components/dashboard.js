@@ -71,7 +71,7 @@ const Dashboard = () => {
       <footer>
         <button
           id='addItems'
-          onClick={() => handleAddItemsBtnClick(userId)}
+          onClick={() => handleAddItemsBtnClick(userIdId)}
         ></button>
       </footer>
     </div>
