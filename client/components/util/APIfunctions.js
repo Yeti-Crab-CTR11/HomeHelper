@@ -14,22 +14,27 @@ const APIFunctions = {};
 
 // VERIFY LOGIN
 
-APIFunctions.verifyLogin = (username, password) => {
+APIFunctions.verifyLogin = async (username, password) => {
   const url = '/api/users/login';
 
   const data = {
     user_name: username,
     password: password
-  }
+  };
   
-  fetch(url, {
+  const response = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
   })
   .then((response) => response.json())
-  .then((returnedData) => console.log(returnedData))
-  .catch((err) => console.log("Error verifying Login", err))
+  .then((returnedData) => {
+    console.log('This runs second.');
+    return returnedData;
+  })
+  .catch((err) => console.log("Error verifying Login", err));
+
+  return response;
 
 }
 
