@@ -19,22 +19,8 @@
     frequency  INT,
     user_id INT 
   );
-  -- CREATE TABLE maintenance_dates (
-  --   _id SERIAL PRIMARY KEY,
-  --   last_service_date  DATE,
-  --   next_service_date  DATE,
-  --   frequency  INT,
-  --   maintenance_details_id INT 
-  -- );
 --   ADD FOREIGN KEYS
   ALTER TABLE "maintenance_details" ADD CONSTRAINT "maintenance__details_fk0" FOREIGN KEY ("user_id") REFERENCES "user_account"("_id");
-  -- ALTER TABLE "maintenance_dates" ADD CONSTRAINT "maintenance__dates_fk0" FOREIGN KEY ("maintenance_details_id") REFERENCES "maintenance_details"("_id");
 
-SELECT m.*, u._id AS user_account_id, u.phone FROM maintenance_details m LEFT JOIN user_account u ON u._id = m.user_id;
-
---   DELETE TABLES
-  -- DROP TABLE user_account;
-  DROP TABLE maintenance_dates;
-  DROP TABLE maintenance_details;
 
 
