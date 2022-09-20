@@ -10,7 +10,6 @@ import APIFunctions from './util/APIfunctions';
  **/
 
 const SelectItem = (props) => {
-  console.log('PROPS', props);
   const navigate = useNavigate();
   //create the state
   const [selectedItem, setSelectedItem] = useContext(ItemContext);
@@ -22,15 +21,13 @@ const SelectItem = (props) => {
 
   // **************************HELPER FUNCTIONS*************************
   const handleCancelBtnClick = () => {
-    navigate('/')
+    navigate('/');
   };
 
   const handleSelectItemBtnClick = (e) => {
     props.handleSetSelectedItem(e);
     return navigate('/additem');
   };
-
-  
 
   const getCurrentItems = async () => {
     const request = 'getItems';
@@ -42,10 +39,10 @@ const SelectItem = (props) => {
     setItems(currentItems);
   };
   // ************************END OF HELPER FUNCTIONS********************
-  // useEffect(() => getCurrentItems(), []);
 
-  console.log('========> ITEMS IN STATE', items);
-  //get missing items
+  //get missing items   
+  ///THIS SECTION OF THE CODE IS CURRENTLY NOT WORKING. 
+  ///WE NEED TO BUILD A LIST OF ITEMS THAT ARE NOT YET ON THE LIST.
   const defaultList = ['FirePlace', 'Gutters', 'HVAC', 'Pool'];
   let missingItems = null;
   if (items)
@@ -59,7 +56,7 @@ const SelectItem = (props) => {
     </button>
   ));
 
-  //render
+  //render page
   return (
     <div>
       <button onClick={() => handleCancelBtnClick()}>Cancel</button>
