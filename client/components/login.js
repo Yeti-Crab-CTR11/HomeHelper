@@ -3,13 +3,11 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import {UserContext} from '../App';
 import APIFunctions from './util/APIfunctions';
 
-
 /**
  * ********************
  * @module Login
  * ********************
  **/
-
 
 const Login = () => {
   const navigate = useNavigate();

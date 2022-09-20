@@ -1,7 +1,4 @@
-
 import React from 'react';
-
-import { Navigate } from 'react-router-dom';
 
 /**
  * ********************
@@ -19,9 +16,9 @@ APIFunctions.verifyLogin = async (username, password) => {
 
   const data = {
     user_name: username,
-    password: password
+    password: password,
   };
-  
+
   const response = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -32,10 +29,9 @@ APIFunctions.verifyLogin = async (username, password) => {
       // console.log('This runs second.');
       return returnedData;
     })
-    .catch((err) => console.log("Error verifying Login", err));
+    .catch((err) => console.log('Error verifying Login', err));
 
   return response;
-
 };
 
 // CREATE ACCOUNT
@@ -47,7 +43,7 @@ APIFunctions.createUser = async (username, password, email, phoneNumber) => {
     user_name: username,
     password: password,
     email: email,
-    phone: phoneNumber
+    phone: phoneNumber,
   };
 
   const response = await fetch(url, {
@@ -62,46 +58,71 @@ APIFunctions.createUser = async (username, password, email, phoneNumber) => {
   return response;
 };
 
-// GET ITEMS IN USER LIST
-APIFunctions.getItems = (user) => {
-  const url = `/api/${user}`;
-  fetch(url)
-    .then((response) => response.json())
-    .then((data) => data) //
-    .catch((err) => console.log(err));
-
-  // expected return object
-  // [{  name: String,
-  //     lastSvc: String,
-  //     nextSvc: String  }]
-};
-
-//ADD NEW ITEM TO USER LIST
-APIFunctions.addItem = (user, e) => {
-  const url = '/api/item';
-  const data = { user: user, item: e.target.value };
+// DELETE ACCOUNT
+APIFunctions.deleteUser = (payload) => {
   fetch(url, {
-    method: 'POST',
+    method: 'DELETE',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
+    body: JSON.stringify(payload),
   })
     .then((response) => response.json())
-    .then((data) => <Navigate replace to='/dashboard' />)
-    .catch((err) => console.log(err));
+    .then((data) => data)
+    .catch((err) => console.log('APIFunctions.deleteUser error', err));
 };
 
-//ADD NEW ITEM DETAILS
-APIFunctions.addItemDetails = (user, newItemDetails) => {
-  const url = '/api/itemdetails';
-  const data = { user_name: user, item: newItemDetails };
-  fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
-  })
+//MAINTENANCE API CALLS
+APIFunctions.maintenance = async (request, payload) => {
+  let method, url, options;
+  //determine method, url and options
+  if (request === 'getItems') {
+    options = {
+      method: method,
+      headers: { 'Content-Type': 'application/json' },
+    };
+  } else {
+    options = {
+      method: method,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    };
+  }
+
+  switch (request) {
+    //get items request
+    case 'getItems':
+      (options.method = 'GET'), (url = `/api/maintenance/${payload}`);
+      break;
+    //add item request
+    case 'addItem':
+      (options.method = 'POST'), (url = '/api/maintenance/add_item');
+      break;
+    //delete item request
+    case 'deleteItem':
+      (options.method = 'DELETE'), (url = '/api/maintenance/delete_item');
+      break;
+    //get item detail request
+    case 'getitemDetails':
+      (options.method = 'GET'),
+        (url = `/api/maintenance/item_details/${payload}`);
+      break;
+    //add item detail request
+    case 'addItemDetails':
+      (options.method = 'POST'), (url = `/api/maintenance/add_item_details/`);
+      break;
+    //update item detail request
+    case 'updateItemDetails':
+      (options.method = 'PUT'), (url = `/api/maintenance/update_item_details/`);
+  }
+  console.log('METHOD AND URL =====>', options.method, url);
+
+  //fetch call
+  const response = await fetch(url, options)
     .then((response) => response.json())
-    .then((data) => <Navigate replace to='/dashboard' />)
-    .catch((err) => console.log(err));
+    .then((data) => data)
+    .catch((err) => console.log('APIFunctions.maintenance error', err));
+  // console.log('THIS IS SECOND');
+  //return response
+  return response;
 };
 
 export default APIFunctions;

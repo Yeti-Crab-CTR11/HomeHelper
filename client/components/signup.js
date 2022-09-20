@@ -3,18 +3,16 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import {UserContext} from '../App';
 import APIFunctions from './util/APIfunctions';
 
-
 /**
  * ********************
  * @module SignUp
  * ********************
  **/
 
-
 const SignUp = () => {
 
   const navigate = useNavigate();
-  const [user, setUser] = useContext(UserContext);
+  const [userId, setUserId] = useContext(UserContext);
   const [errorMessages, setErrorMessages] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -49,7 +47,7 @@ const SignUp = () => {
       if (userData) {
         console.log('New User created!');
         setIsSubmitted(true);
-        setUser(userData);
+        setUserId(userData);
         console.log(userData);
         return navigate('/');
         // return <Navigate replace to='/dashboard' />;

@@ -1,53 +1,61 @@
 import React, { useState, useContext, useEffect, Component } from 'react';
-import { Navigate } from 'react-router-dom';
-import { UserContext, ItemContext } from '../App';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { UserContext } from '../App';
 import APIFunctions from './util/APIfunctions';
 
 /**
  * ********************
- * @module AddItemDetails
+ * @module AddItem
  * ********************
  **/
 
-const AddItemDetails = () => {
+const AddItem = (props) => {
+  const navigate = useNavigate();
   //create the state
-  const [user, setUser] = useContext(UserContext);
-  const [itemName, setItemName] = useContext(ItemContext);
+  const [userId, setUserId] = useContext(UserContext);
   const [lastSvc, setLastSvc] = useState(null);
   const [freq, setFreq] = useState(3);
 
   // **************************HELPER FUNCTIONS*************************
-
   // submit button
-  const handleSubmitBtnClick = () => {
-    newItemDetails = {
-      itemName: itemName,
-      lastSvc: lastSvc,
+  const handleSubmitBtnClick = async () => {
+    const request = 'addItem';
+    const payload = {
+      user_id: userId,
+      item_name: props.selectedItem,
+      last_service_date: lastSvc,
+      next_service_date: null , //THIS WAS CHANGED TO TODAY'S DATE FOR DEMO PURPOSES.
       frequency: freq,
+      model: null,
+      warranty: null,
+      resources: null,
+      vendor_name: null,
+      vendor_phone: null,
     };
-    APIFunctions.addItemDetails(user, newitemDetails);
-    return <Navigate replace to='/dashboard' />;
+    await APIFunctions.maintenance(request, payload);
+    navigate('/');
   };
 
-  // cancel button
+  //cancel button
   const handleCancelBtnClick = () => {
-    return <Navigate replace to='/dashboard' />;
+    navigate('/selectItem');
+    //  return;
   };
-
   // ************************END OF HELPER FUNCTIONS********************
 
   //render
   return (
     <div>
+      <button onClick={() => handleCancelBtnClick()}>Cancel</button>
       <header>
-        <h1>{itemName}</h1>
+        <h1>{props.selectedItem}</h1>
       </header>
       <section>
         <input
           type='date'
           id='lastSvc'
           onChange={(e) => setLastSvc(e.target.value)}
-        ></input>
+        />
         <p>Select frequency</p>
         <select
           id='frequency'
@@ -61,10 +69,9 @@ const AddItemDetails = () => {
           <option value='24'>24 months</option>
         </select>
         <button onClick={() => handleSubmitBtnClick()}>Submit</button>
-        <button onClick={() => handleCancelBtnClick()}>Submit</button>
       </section>
     </div>
   );
 };
 
-export default AddItemDetails;
+export default AddItem;
