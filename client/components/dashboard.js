@@ -32,9 +32,7 @@ const Dashboard = () => {
   const getCurrentItems = async () => {
     const request = 'getItems';
     const payload = userId;
-    // console.log('THIS IS FIRST');
     const currentItems = await APIFunctions.maintenance(request, payload);
-    // console.log('THIS IS THIRD');
     console.log(currentItems);
     setItems(currentItems);
   };
@@ -42,29 +40,30 @@ const Dashboard = () => {
   useEffect(() => {
     getCurrentItems();
   }, []);
-  console.log('items', items);
+
   // display on line 67
-  const displayItems = (!items || !items.length) ? (
-    <div>
-      <p>
-        Please click on the "+" icon at the bottom left section to add
-        maintenance items.
-      </p>
-    </div>
-  ) : (
-    items.map((item, idx) => {
-      return (
-      <Card
-        key={idx}
-        maintenance_item_id={item._id}
-        item_name={item.item_name}
-        last_service_date={'DATE VALUE'}
-        next_service_date={'DATE VALUE'}
-        frequency={'NUMBER VALUE'}
-        />
-        )
-    })
-  );
+  const displayItems =
+    !items || !items.length ? (
+      <div>
+        <p>
+          Please click on the "+" icon at the bottom left section to add
+          maintenance items.
+        </p>
+      </div>
+    ) : (
+      items.map((item, idx) => {
+        return (
+          <Card
+            key={idx}
+            maintenance_item_id={item._id}
+            item_name={item.item_name}
+            last_service_date={'DATE VALUE'}
+            next_service_date={'DATE VALUE'}
+            frequency={'NUMBER VALUE'}
+          />
+        );
+      })
+    );
 
   //render page
   return (

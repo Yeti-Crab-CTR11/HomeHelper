@@ -17,7 +17,6 @@ const AddItem = (props) => {
   const [freq, setFreq] = useState(3);
 
   // **************************HELPER FUNCTIONS*************************
-
   // submit button
   const handleSubmitBtnClick = async () => {
     const request = 'addItem';
@@ -25,7 +24,7 @@ const AddItem = (props) => {
       user_id: userId,
       item_name: props.selectedItem,
       last_service_date: lastSvc,
-      next_service_date: '2022-09-19', //DON"T FORGET TO CHANGE THIS!!!
+      next_service_date: null , //THIS WAS CHANGED TO TODAY'S DATE FOR DEMO PURPOSES.
       frequency: freq,
       model: null,
       warranty: null,
@@ -33,15 +32,12 @@ const AddItem = (props) => {
       vendor_name: null,
       vendor_phone: null,
     };
-    console.log('payload', payload);
     await APIFunctions.maintenance(request, payload);
     navigate('/');
-    // return <Navigate to='/' replace={true} />;
   };
 
   //cancel button
   const handleCancelBtnClick = () => {
-    // return <Navigate to='/selectItem' replace={true} />;
     navigate('/selectItem');
     //  return;
   };

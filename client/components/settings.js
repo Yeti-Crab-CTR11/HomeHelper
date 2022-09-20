@@ -8,6 +8,8 @@ import APIFunctions from './util/APIfunctions';
  * ********************
  **/
 
+///THIS COMPONENT IS CURRENTLY NOT WORKING
+
 const Settings = async () => {
   const navigate = useNavigate();
   //create the state
