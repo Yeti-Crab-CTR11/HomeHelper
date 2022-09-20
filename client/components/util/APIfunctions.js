@@ -60,6 +60,7 @@ APIFunctions.createUser = async (username, password, email, phoneNumber) => {
 
 // DELETE ACCOUNT
 APIFunctions.deleteUser = (payload) => {
+  const url = '/api/users/delete_user';
   fetch(url, {
     method: 'DELETE',
     headers: { 'Content-Type': 'application/json' },

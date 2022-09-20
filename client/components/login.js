@@ -3,6 +3,10 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import {UserContext} from '../App';
 import APIFunctions from './util/APIfunctions';
 
+
+// All the standard imports. useNavigate is used to navigate to another node.
+// API functions is a document that contains all of our fetch requests.
+
 /**
  * ********************
  * @module Login
@@ -15,51 +19,51 @@ const Login = () => {
   const [errorMessages, setErrorMessages] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  // User Login info
-  // const database = ???
+  // above is our state. userId is important to pass along when the user logs in. 
+  // errorMessages display when the user logs in with an incorrect username or PW.
+  // isSubmitted is not used at the moment, but could be used during iteration.
+
+
 
   const errors = {
     uname: "invalid username",
     pass: "invalid password"
   };
 
+  // these errors display as text on the user's scren when username or PW is incorrect.
+
   const handleSubmit = async (event) => {
+
+    // this MUST be async. Otherwise REACT will throw an error b/c components are rendering
+    // that rely on state
 
     //Prevent page reload
     event.preventDefault();
+
     const { uname, pass } = document.forms[0];
 
-    // Find user login info
+    // document.forms[0] grabs the value of whatever text is in the username and PW input fields
 
 
-    // console.log('username and pw is', uname.value, pass.value);
-    
-    // console.log("This runs first");
     const userData = await APIFunctions.verifyLogin(uname.value, pass.value);
-    // console.log("this runs third.");
-    // What syntax do we need to find this data?
-    // I should make a post request to my server(api)
 
-    // console.log("Is the async working correctly? userData is ", userData);
 
     // Compare user info
     if (userData) {
-      // if (userData.password !== pass.value) {
-      //   // Invalid password
-      //   setErrorMessages({ name: "pass", message: errors.pass });
-      // } else {
+
       console.log(userData);
       setIsSubmitted(true);
       setUserId(userData);
-      // I want to set the state for the user by pulling data from the database
-      // return <Navigate replace to='index' />;
+
       return navigate('/');
-      //is this correct syntax?
     }
     else {
       // Username not found
-      // doesn't this catch null as a falsy value?
+      // the get request returns NULL if username and PW do not exist in our database.
+      // this else statement catches null as a falsy value.
+
       setErrorMessages({ name: 'uname', message: errors.uname });
+      // this will display a unique error message under username or PW.
     }
   };
 
@@ -68,8 +72,6 @@ const Login = () => {
   const handleClick = () => {
     console.log('Navigating to Sign Up');
     return navigate('/signup');
-    // return <Navigate to='/signup' />;
-    //is this enough to exit the login page and enter the signup page?
   };
 
 
@@ -105,8 +107,6 @@ const Login = () => {
     </div>
 
   );
-
-  // onClick={() => handleClick()
 
   return (
     <div className="app">

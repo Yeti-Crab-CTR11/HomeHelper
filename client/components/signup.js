@@ -3,6 +3,9 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import {UserContext} from '../App';
 import APIFunctions from './util/APIfunctions';
 
+// All the standard imports. useNavigate is used to navigate to another node.
+// API functions is a document that contains all of our fetch requests.
+
 /**
  * ********************
  * @module SignUp
@@ -16,12 +19,16 @@ const SignUp = () => {
   const [errorMessages, setErrorMessages] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
 
+  // above is our state. userId is important to pass along when the user logs in. 
+  // errorMessages display when the user inputs a value that our database does not accept.
+  // isSubmitted is not used at the moment, but could be used during iteration.
+
 
   const errors = {
     uname: "Please enter a valid username.",
     pass: "Please enter a valid password.",
     email: "Please enter a valid email address.",
-    phone: "Please enter a valid ten-digit phone number."
+    phone: "Please enter a valid country code plus ten-digit phone number in the format: +12345678910"
   };
 
   const handleSubmit = async (event) => {
@@ -31,18 +38,21 @@ const SignUp = () => {
 
     const { uname, pass, email, phone } = document.forms[0];
 
-    console.log(uname.value, pass.value, email.value, phone.value);
-
-    console.log('Type of phone.value is ', typeof Number(phone.value));
+    // console.log(uname.value, pass.value, email.value, phone.value);
 
 
     if (uname.value === undefined || typeof uname.value !== 'string') setErrorMessages({ name: "uname", message: errors.uname });
     else if (pass.value === undefined || typeof pass.value !== 'string') setErrorMessages({ name: "pass", message: errors.pass });
     else if (email.value === undefined || typeof email.value !== 'string') setErrorMessages({ name: "email", message: errors.email });
-    else if (Number(phone.value) === undefined || typeof Number(phone.value) !== 'number') setErrorMessages({ name: "phone", message: errors.phone });
+    else if (phone.value === undefined) setErrorMessages({ name: "phone", message: errors.phone });
+    
+    // this needs a function that converts phone numbers to this format: +12345678910.
+    // That is what the Trilio api is expecting.
     
     else {
-      const userData = await APIFunctions.createUser(uname.value, pass.value, email.value, Number(phone.value));
+      const userData = await APIFunctions.createUser(uname.value, pass.value, email.value, phone.value);
+
+      // ^^^ it is important that this is async.
 
       if (userData) {
         console.log('New User created!');
@@ -50,7 +60,6 @@ const SignUp = () => {
         setUserId(userData);
         console.log(userData);
         return navigate('/');
-        // return <Navigate replace to='/dashboard' />;
       }
       else console.error('Did not return correct user data from API during CreateUser function in signup');
     }  
@@ -59,7 +68,6 @@ const SignUp = () => {
 
 
   const handleClick = () => {
-    // return <Navigate replace to='/login' />
     return navigate('/login');
   };
 
@@ -108,7 +116,6 @@ const SignUp = () => {
 
   );
 
-  // onClick={() => handleClick()
 
   return (
     <div className="app">
